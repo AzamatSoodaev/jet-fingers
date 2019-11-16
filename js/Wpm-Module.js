@@ -1,87 +1,50 @@
 const WpmText = (function($) { 
 
   let text;
+  let textArray;
   let wordId;
   let word;
   let noofseconds;
   let timeInterval;
   let symbols;
-  let realTimeScore;
   let max;
-  let started_at;
-  let ended_at;
   let distance;
+  let mySpeed;
+  let time_end;
 
-  // setters
+  function reset() {
+    wordId = -1;
+    symbols = 0; 
+    max = 0;
+    text = 'They suspect him of human being.';
+    distance = 570 / text.split(' ').join('').length;
+    textArray = getTextArray();
+  }
 
-  function setText() {
-    text = getText().split(" ").map((word, id) => {
+  function calculate() {
+    mySpeed =  Math.round(((symbols / 5 / noofseconds) * 60) * 100) / 100;
+    time_end = Math.round(noofseconds * 10) / 10;
+  }
+
+  function showResults() {
+    $('#user_score').text(`${mySpeed} wpm`);
+    $('#symbols').text(symbols);
+    $('#time').text(`${time_end} seconds`);
+  }
+
+  function getTextArray() {
+    return text.split(" ").map((word, id) => {
       return `<span data-word-id="${id}">${word}</span>`;
     });  
-  }  
-
-  function setUnderlinedWord() {
-    word.attr('class', 'underlined');
   }
-
+  
   function setWord() {
     word = $(`span[data-word-id="${++wordId}"]`);
+    word.attr('class', 'underlined')
   }
 
-  function setWordId() {
-    wordId = -1;
-  }
-
-  function setFocusOnInput() {
-    $('input#userText').focus();
-  }
-
-  function setEndTime() {
-    ended_at = new Date().getSeconds();
-  }
-
-  function setDistance() {
-    distance = 590 / getText().split(' ').join('').length; 
-  }
-
-  // getters
-
-  function getText() {
-    let text = 'They suspect him of human being. if you want it to have one decimal place, even when that would be a 0, then add...';
-    if (!text.length) {
-      return '';
-    } 
-    return text;
-  }
-
-  function getMySpeed() {
-    return Math.round(((symbols / 5 / noofseconds) * 60) * 100) / 100;
-  }
-
-  function printText() {
-    $('p#sourceText').html( text.join(' ') );
-  }
-
-  function printTextLength() {
-    $('#text-length').html(getText().length + ' symbols');
-  }
-
-  function printCurrentScore() {
-    realTimeScore = setInterval(() => {
-      $('#wpm').html( getMySpeed() + ' wpm' );
-    }, 1000);
-  }
-
-  function printTime() {
-    $('#time').text((Math.round(noofseconds * 10) / 10) + ' seconds');
-  }
-
-  function printSymbols() {
-    $('#symbols').text(symbols);
-  }
-
-  function printWPM() {
-    $('#user_score').text( getMySpeed() + ' wpm' );
+  function showText() {
+    $('p#sourceText').html( textArray.join(' ') );
   }
 
   function disablePrinting() {
@@ -101,11 +64,7 @@ const WpmText = (function($) {
   }
 
   function startTimer() {
-    started_at = new Date().getSeconds();
-    symbols = 0; 
     noofseconds = 0;
-    max = 0;
-
     timeInterval = setInterval(() => { 
       noofseconds += 0.1; 
     }, 100); 
@@ -118,35 +77,25 @@ const WpmText = (function($) {
 
   return {
     restart: function() {  
-      setText();
-      printText(); 
-      printTextLength();
-      setWordId();
-      setWord();
-      setUnderlinedWord();
-      setFocusOnInput();
       startTimer();
-      printCurrentScore();
-      setDistance();
+      reset();
+      showText(); 
+      setWord();
     },
 
     endGame: function () {
+      clearInterval(timeInterval);
       disablePrinting();
       clearInput();
       prevWordCorrect();
-      clearInterval(timeInterval);
-      clearInterval(realTimeScore);
-      printWPM();
-      printSymbols();
-      setEndTime();
-      printTime();
+      calculate();
+      showResults();
     },
 
     updateView: function() {
       clearInput();
       prevWordCorrect();
       setWord();
-      setUnderlinedWord();
       max = 0;
     },
 
@@ -154,7 +103,7 @@ const WpmText = (function($) {
       let word_substring = word.text().substr(0, value.length);
       let isEqual = value.rtrim() === word.text();
       let isSpaceKeyPressed = value.length - 1 === word.text().length;
-      let isLastWord = (wordId+1) === text.length;
+      let isLastWord = (wordId+1) === textArray.length;
 
       if (isSpaceKeyPressed && isEqual) {
         this.updateView();
@@ -167,7 +116,7 @@ const WpmText = (function($) {
           symbols++;
           $('#racecar').css('padding-left', distance * symbols);
         } 
-        setUnderlinedWord();
+        word.attr('class', 'underlined');
       } else {
         invalidChar();
       }
