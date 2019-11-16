@@ -4,13 +4,13 @@ const WpmText = (function($) {
   let wordId;
   let word;
   let wordsAmount;
-  let symbols;
+  let textLength;
 
   function setText() {
     text = getText().split(" ").map((word, id) => {
       return `<span data-word-id="${id}">${word}</span>`;
     });
-  }
+  } 
 
   function setWordsAmount() {
     wordsAmount = $('#sourceText span').length;
@@ -45,6 +45,10 @@ const WpmText = (function($) {
     $('p#sourceText').html( text.join(' ') );
   }
 
+  function printTextLength() {
+    $('#text-length').html(getText().length + ' symbols');
+  }
+
   function disablePrinting() {
     $('#userText').attr('disabled', '');
   }
@@ -71,6 +75,7 @@ const WpmText = (function($) {
       setText();
       printText();
       setWordsAmount();
+      printTextLength();
       setWordId();
       setWord();
       setUnderlinedWord();

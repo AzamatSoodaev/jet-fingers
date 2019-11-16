@@ -1,5 +1,6 @@
 body {
   padding-top: 56px;
+  font-size: 14px;
 }
 
 .bg-light {
@@ -8,4 +9,29 @@ body {
 
 .bg-primary {
 	background-color: #4a76a8 !important;
+}
+
+.btn {
+	font-size: 14px;
+	padding: 3px 10px;
+}
+
+.btn-primary {
+	background-color: #4a76a8 !important;
+	border: none;
+}
+
+.btn-default {
+	background-color: #eff3f6;
+	background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+	border: 1px solid rgba(27,31,35,.2);
+}
+
+.dropdown-item {
+	font-size: 14px;
+}
+
+.card-header, 
+.card-footer {
+	background-color: #f6f8fa;
 }

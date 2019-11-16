@@ -8,10 +8,21 @@
 }
 
 .wpm-text {
-	font-size: 20px;
+	font-size: 24px;
 }
 
 #userText {
 	padding: 0;
 	font-size: 20px;
+}
+
+.score {
+	padding-left: 20px;
+	border-left: 2px solid rgba(0,0,0,.125);
+}
+
+.mylist {
+	font-weight: 500;
+	list-style-type: none;
+	line-height: 2;
 }
