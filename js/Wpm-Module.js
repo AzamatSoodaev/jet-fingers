@@ -10,6 +10,7 @@ const WpmText = (function($) {
   let max;
   let started_at;
   let ended_at;
+  let distance;
 
   // setters
 
@@ -39,10 +40,14 @@ const WpmText = (function($) {
     ended_at = new Date().getSeconds();
   }
 
+  function setDistance() {
+    distance = 590 / getText().split(' ').join('').length; 
+  }
+
   // getters
 
   function getText() {
-    let text = 'They suspect him of human being.';
+    let text = 'They suspect him of human being. if you want it to have one decimal place, even when that would be a 0, then add...';
     if (!text.length) {
       return '';
     } 
@@ -68,7 +73,7 @@ const WpmText = (function($) {
   }
 
   function printTime() {
-    $('#time').text(Math.floor(noofseconds) + ' seconds');
+    $('#time').text((Math.round(noofseconds * 10) / 10) + ' seconds');
   }
 
   function printSymbols() {
@@ -122,6 +127,7 @@ const WpmText = (function($) {
       setFocusOnInput();
       startTimer();
       printCurrentScore();
+      setDistance();
     },
 
     endGame: function () {
@@ -136,6 +142,14 @@ const WpmText = (function($) {
       printTime();
     },
 
+    updateView: function() {
+      clearInput();
+      prevWordCorrect();
+      setWord();
+      setUnderlinedWord();
+      max = 0;
+    },
+
     validateText: function(value) { 
       let word_substring = word.text().substr(0, value.length);
       let isEqual = value.rtrim() === word.text();
@@ -143,11 +157,7 @@ const WpmText = (function($) {
       let isLastWord = (wordId+1) === text.length;
 
       if (isSpaceKeyPressed && isEqual) {
-        clearInput();
-        prevWordCorrect();
-        setWord();
-        setUnderlinedWord();
-        max = 0;
+        this.updateView();
         return;
       }
 
@@ -155,6 +165,7 @@ const WpmText = (function($) {
         if (max < value.length) {
           max = value.length;
           symbols++;
+          $('#racecar').css('padding-left', distance * symbols);
         } 
         setUnderlinedWord();
       } else {

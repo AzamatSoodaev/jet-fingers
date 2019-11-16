@@ -27,3 +27,28 @@
 	list-style-type: none;
 	line-height: 2;
 }
+
+.race {
+  border-bottom: 3px dotted #ccc;
+  margin-bottom: 25px;
+  position: relative;
+  margin-top: 25px;
+}
+
+#racecar {
+  -webkit-transition: .5s;  
+  -o-transition: .5s;  
+  transition: .5s;  
+}
+
+#finishline {
+  position: absolute;
+  right: 0;
+  width: 30px;
+  top: 0px;
+}
+
+.road {
+  border-bottom: 3px dotted #ccc; 
+  margin-top: 50px;
+}
