@@ -1,0 +1,17 @@
+.underlined {
+  text-decoration: underline;
+  color: green;
+}
+
+.invalid-char {
+	color: red;
+}
+
+.wpm-text {
+	font-size: 20px;
+}
+
+#userText {
+	padding: 0;
+	font-size: 20px;
+}

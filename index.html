@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>140 Wpm</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body class="bg-light">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">140 Wpm</a>
+    </div>
+  </nav>
+  <!-- /Navigation -->
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7 mx-auto mt-4">
+        <div class="card">
+         <!--  <div class="card-header">
+            Type
+          </div> -->
+          <div class="card-body">
+            <p class="wpm-text" id="sourceText"></p>
+            <div class="form-group">
+              <input type="text" class="form-control form-control-sm" id="userText" maxlength="15">
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Page Content -->
+
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="js/Wpm-Module.js"></script>
+  <script>
+  $(document).ready(function() {
+
+    WpmText.restart();
+
+    $('input#userText').on('input', function() {
+      WpmText.validateText(this.value);
+    });
+
+  });
+  </script>
+</body>
+
+</html>

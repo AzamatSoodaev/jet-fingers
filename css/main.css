@@ -1,0 +1,11 @@
+body {
+  padding-top: 56px;
+}
+
+.bg-light {
+	background-color: #edeef0 !important;
+}
+
+.bg-primary {
+	background-color: #4a76a8 !important;
+}
