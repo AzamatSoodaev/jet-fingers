@@ -1,14 +1,15 @@
 .underlined {
   text-decoration: underline;
-  color: green;
+  color: #4CAF50;
 }
 
 .invalid-char {
-	color: red;
+	color: #dc3545;
+	/*background-color: #ffdada;*/
 }
 
 .wpm-text {
-	font-size: 24px;
+	font-size: 20px;
 }
 
 #userText {
