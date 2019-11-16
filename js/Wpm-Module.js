@@ -3,13 +3,18 @@ const WpmText = (function($) {
   let text;
   let wordId;
   let word;
-  let wordsCount;
-  let symbolsCount;
+  let wordsAmount;
+  let symbols;
 
   function setText() {
     text = getText().split(" ").map((word, id) => {
       return `<span data-word-id="${id}">${word}</span>`;
     });
+  }
+
+  function setWordsAmount() {
+    wordsAmount = $('#sourceText span').length;
+    console.log(wordsAmount);
   }
 
   function setUnderlinedWord() {
@@ -40,12 +45,20 @@ const WpmText = (function($) {
     $('p#sourceText').html( text.join(' ') );
   }
 
+  function disablePrinting() {
+    $('#userText').attr('disabled', '');
+  }
+
   function clearInput() {
     $('input#userText').val('');
   } 
 
   function prevWordCorrect() {
     word.removeAttr('class');
+  }
+
+  function invalidChar() {
+    word.attr('class', 'invalid-char');
   }
 
   String.prototype.rtrim = function() {
@@ -57,6 +70,7 @@ const WpmText = (function($) {
     restart: function() {   
       setText();
       printText();
+      setWordsAmount();
       setWordId();
       setWord();
       setUnderlinedWord();
@@ -64,14 +78,28 @@ const WpmText = (function($) {
     },
 
     validateText: function(value) { 
-      if (value.length - 1 !== word.text().length) return;
-      
-      if (value.rtrim() !== word.text()) return;
+      let word_substring = word.text().substr(0, value.length);
+      let isEqual = value.rtrim() === word.text();
+      let isSpaceKeyPressed = value.length - 1 === word.text().length;
+      let isLastWord = (wordId+1) === wordsAmount;
 
-      clearInput();
-      prevWordCorrect();
-      setWord();
-      setUnderlinedWord();
+      if (isSpaceKeyPressed && isEqual) {
+        clearInput();
+        prevWordCorrect();
+        setWord();
+        setUnderlinedWord();
+      }
+      else if (isLastWord && isEqual) {
+        disablePrinting();
+        clearInput();
+        prevWordCorrect();
+      }
+      else if (value === word_substring) {
+        setUnderlinedWord();
+      } 
+      else {
+        invalidChar(); 
+      }
     }
   };
 
