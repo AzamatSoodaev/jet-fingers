@@ -10,6 +10,7 @@ const WpmText = (function($) {
   let distance;
   let mySpeed;
   let time_end;
+  let isLoading = false;
   let $word;
   let $inputfield = $('input#inputfield');
   let $racecar = $('#racecar');
@@ -22,7 +23,6 @@ const WpmText = (function($) {
     symbolsCounter = 0; 
     noofseconds = 0;
     max = 0;
-    text = 'They suspect him of human being.';
     words = text.split(' ');
     distance = 570 / words.join('').length; 
   }
@@ -36,7 +36,7 @@ const WpmText = (function($) {
     $('#user_score').text(`${mySpeed} wpm`);
     $('#symbols').text(symbolsCounter);
     $('#time').text(`${time_end} seconds`);
-  }
+  } 
 
   function getTextArray() {
     return text.split(" ").map((word, id) => {
@@ -57,14 +57,35 @@ const WpmText = (function($) {
 
   return {
     restart: function() {  
-      reset();
-      startTimer();
-      $paragraph.html( getTextArray().join(' ') ); // show text 
-      highlightWord();
-      $chart.hide();
-      $inputfield.removeAttr('disabled');
-      $inputfield.focus();
-      $racecar.css('padding-left', 0);
+      $.ajax({
+        type: "POST",
+        url: './server/get_text.php',
+        cache: false, 
+        success: function(response)
+        {
+          let jsonData = JSON.parse(response); 
+          if (jsonData.success == "1")
+          { 
+            console.log('connected successfully');
+
+            isLoading = true;
+
+            text = jsonData.text;
+            reset();
+            startTimer();
+            $paragraph.html( getTextArray().join(' ') ); // show text 
+            highlightWord();
+            $chart.hide();
+            $inputfield.removeAttr('disabled');
+            $inputfield.focus();
+            $racecar.css('padding-left', 0);
+          }
+          else
+          { 
+            console.log('Invalid Credentials!');
+          }
+        }
+     });
     },
 
     endGame: function () {
@@ -84,6 +105,8 @@ const WpmText = (function($) {
     },
 
     validateText: function(inputValue) { 
+      if (!isLoading) return;
+      
       let wordSubstring = words[wordPointer].substr(0, inputValue.length);
       let isEqual = inputValue.trimEnd() === words[wordPointer];
       let isSpaceKeyPressed = inputValue.length - 1 === words[wordPointer].length;
