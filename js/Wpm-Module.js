@@ -14,7 +14,6 @@ const WpmText = (function($) {
   let $inputfield = $('input#inputfield');
   let $racecar = $('#racecar');
   let $paragraph = $('p#sourceText');
-  let $textarea = $('#textarea');
   let $audio = document.getElementById('sound-clap');
   let $chart = $('#chart');
 
@@ -63,8 +62,6 @@ const WpmText = (function($) {
       $paragraph.html( getTextArray().join(' ') ); // show text 
       highlightWord();
       $chart.hide();
-      $textarea.hide();
-      $paragraph.show();
       $inputfield.removeAttr('disabled');
       $inputfield.focus();
       $racecar.css('padding-left', 0);
@@ -72,12 +69,10 @@ const WpmText = (function($) {
 
     endGame: function () {
       clearInterval(timeInterval); 
-      $paragraph.hide();
       $inputfield.val('');
       $inputfield.attr('disabled', '');
-      $textarea.val(text);
-      $textarea.show();
       $chart.show();
+      $word.attr('class', 'correct');
       calculate();
       showResults(); 
     },
