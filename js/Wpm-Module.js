@@ -1,34 +1,41 @@
 const WpmText = (function($) { 
 
   let text;
-  let textArray;
-  let wordId;
-  let word;
+  let words;
+  let wordPointer;
   let noofseconds;
   let timeInterval;
-  let symbols;
+  let symbolsCounter;
   let max;
   let distance;
   let mySpeed;
   let time_end;
+  let $word;
+  let $inputfield = $('input#inputfield');
+  let $racecar = $('#racecar');
+  let $paragraph = $('p#sourceText');
+  let $textarea = $('#textarea');
+  let $audio = document.getElementById('sound-clap');
+  let $chart = $('#chart');
 
   function reset() {
-    wordId = -1;
-    symbols = 0; 
+    wordPointer = -1;
+    symbolsCounter = 0; 
+    noofseconds = 0;
     max = 0;
     text = 'They suspect him of human being.';
-    distance = 570 / text.split(' ').join('').length;
-    textArray = getTextArray();
+    words = text.split(' ');
+    distance = 570 / words.join('').length; 
   }
 
   function calculate() {
-    mySpeed =  Math.round(((symbols / 5 / noofseconds) * 60) * 100) / 100;
+    mySpeed =  Math.round(((symbolsCounter / 5 / noofseconds) * 60) * 100) / 100;
     time_end = Math.round(noofseconds * 10) / 10;
   }
 
   function showResults() {
     $('#user_score').text(`${mySpeed} wpm`);
-    $('#symbols').text(symbols);
+    $('#symbols').text(symbolsCounter);
     $('#time').text(`${time_end} seconds`);
   }
 
@@ -38,87 +45,72 @@ const WpmText = (function($) {
     });  
   }
   
-  function setWord() {
-    word = $(`span[data-word-id="${++wordId}"]`);
-    word.attr('class', 'underlined')
-  }
-
-  function showText() {
-    $('p#sourceText').html( textArray.join(' ') );
-  }
-
-  function disablePrinting() {
-    $('#userText').attr('disabled', '');
-  }
-
-  function clearInput() {
-    $('input#userText').val('');
+  function highlightWord() {
+    $word = $(`span[data-word-id="${++wordPointer}"]`);
+    $word.addClass('underlined');
   } 
 
-  function prevWordCorrect() {
-    word.removeAttr('class');
-  }
-
-  function invalidChar() {
-    word.attr('class', 'invalid-char');
-  }
-
   function startTimer() {
-    noofseconds = 0;
     timeInterval = setInterval(() => { 
       noofseconds += 0.1; 
     }, 100); 
   } 
 
-  String.prototype.rtrim = function() {
-    let trimmed = this.replace(/\s+$/g, '');
-    return trimmed;
-  };
-
   return {
     restart: function() {  
-      startTimer();
       reset();
-      showText(); 
-      setWord();
+      startTimer();
+      $paragraph.html( getTextArray().join(' ') ); // show text 
+      highlightWord();
+      $chart.hide();
+      $textarea.hide();
+      $paragraph.show();
+      $inputfield.removeAttr('disabled');
+      $inputfield.focus();
+      $racecar.css('padding-left', 0);
     },
 
     endGame: function () {
-      clearInterval(timeInterval);
-      disablePrinting();
-      clearInput();
-      prevWordCorrect();
+      clearInterval(timeInterval); 
+      $paragraph.hide();
+      $inputfield.val('');
+      $inputfield.attr('disabled', '');
+      $textarea.val(text);
+      $textarea.show();
+      $chart.show();
       calculate();
-      showResults();
+      showResults(); 
     },
 
     updateView: function() {
-      clearInput();
-      prevWordCorrect();
-      setWord();
-      max = 0;
+      $inputfield.val('');
+      $word.attr('class', 'correct'); // previus word is correct
+      highlightWord();
     },
 
-    validateText: function(value) { 
-      let word_substring = word.text().substr(0, value.length);
-      let isEqual = value.rtrim() === word.text();
-      let isSpaceKeyPressed = value.length - 1 === word.text().length;
-      let isLastWord = (wordId+1) === textArray.length;
+    validateText: function(inputValue) { 
+      let wordSubstring = words[wordPointer].substr(0, inputValue.length);
+      let isEqual = inputValue.trimEnd() === words[wordPointer];
+      let isSpaceKeyPressed = inputValue.length - 1 === words[wordPointer].length;
+      let isLastWord = wordPointer === words.length - 1;
 
       if (isSpaceKeyPressed && isEqual) {
         this.updateView();
+        max = 0;
         return;
       }
 
-      if (value === word_substring) {
-        if (max < value.length) {
-          max = value.length;
-          symbols++;
-          $('#racecar').css('padding-left', distance * symbols);
+      if (inputValue === wordSubstring) {
+        if (max < inputValue.length) {
+          max = inputValue.length;
+          symbolsCounter++;
+          $racecar.css('padding-left', distance * symbolsCounter);
         } 
-        word.attr('class', 'underlined');
+        $word.attr('class', 'underlined');
       } else {
-        invalidChar();
+        $word.attr('class', 'invalid-char');
+        $audio.currentTime = 0;
+        $audio.play();
       }
 
       if (isLastWord && isEqual) {

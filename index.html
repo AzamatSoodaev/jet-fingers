@@ -57,7 +57,7 @@
         <div class="card mb-2">
           <div class="card-header">
             <div class="race-info">
-              <span id="wpm">Start typing</span> 
+              <span id="wpm">Start typing</span>
             </div>
           </div>
           <div class="card-body pb-0">
@@ -65,47 +65,54 @@
               <img id="racecar" src="images/car_silver.png" alt="racecar">
               <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
             </div>
+            <div>
               <p class="wpm-text unselectable" id="sourceText"></p>
+              <div class="form-group">
+                <textarea class="form-control" id="textarea"></textarea>
+              </div>
               <div class="form-group mt-4">
-                <input type="text" class="form-control form-control-sm" id="userText" maxlength="15" autofocus>
+                <input type="text" class="form-control form-control-sm" id="inputfield" maxlength="15">
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="border p-3 mb-4 bg-white">
-            <h5>Finished</h5>
+        <div class="card mb-2" id="chart"> 
+          <div class="card-header">
+            <span class="card-title">Finished</span>
+          </div>
+          <div class="card-body">
             <ul class="mylist pl-0">
               <li>Speed: <span id="user_score" class="text-danger"></span></li>
               <li>Symbols: <span id="symbols" class="text-danger"></span></li>
               <li>Time: <span id="time" class="text-danger"></span></li>
-              <!--  <li>Accuracy: <span   class="text-danger">98%</span></li>
-            <li>Rank: <span   class="text-danger">2nd place</span></li> -->
             </ul>
+          </div>
+          <div class="card-footer">
             <button class="btn btn-sm btn-info" id="start-again-btn">Race again</button>
           </div>
         </div>
       </div>
     </div>
-    <!-- /Page Content -->
+  </div>
+  <!-- /Page Content -->
 
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/Wpm-Module.js"></script>
-    <script>
-    $(document).ready(function() {
-      
-      WpmText.restart();
-      
-      $('input#userText').on('input', function() {
-        WpmText.validateText(this.value);
-      });
+  <audio id="sound-clap" src="sounds/clap.wav"></audio>
 
-      $('#start-again-btn').on('click', function() {
-        WpmText.restart();
-      });
-
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/Wpm-Module.js"></script>
+  <script>
+  $(document).ready(function() {
+    WpmText.restart();
+    $('input#inputfield').on('input', function() {
+      WpmText.validateText(this.value);
     });
-    </script>
+    $('#start-again-btn').on('click', function() {
+      WpmText.restart();
+    });
+  });
+  </script>
 </body>
 
 </html>
