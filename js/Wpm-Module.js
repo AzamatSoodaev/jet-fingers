@@ -11,6 +11,7 @@ const WpmText = (function($) {
   let mySpeed;
   let time_end;
   let isLoading = false;
+  let raceInterval;
   let $word;
   let $inputfield = $('input#inputfield');
   let $racecar = $('#racecar');
@@ -65,26 +66,68 @@ const WpmText = (function($) {
     $racecar.css('padding-left', 0);
   }
 
+  // function moveRaceCar() {
+  //   raceInterval = setInterval(
+  //     $.ajax({
+  //       type: "POST",
+  //       url: './server/distance.php',
+  //       cache: false, 
+  //       data: {distance: symbolsCounter},
+  //       success: function(response)
+  //       {
+  //         let jsonData = JSON.parse(response); 
+  //         if (jsonData.success == "1")
+  //         {
+  //           console.log('2:connected successfully');
+  //           $racecar.css('padding-left', distance *  jsonData.distance);
+  //         }
+  //         else
+  //         { 
+  //           console.log('2:connection failed');
+  //         }
+  //       }
+  //     }), 2000);
+  // }
+
   return {  
     restart: function() {  
       $.ajax({
         type: "POST",
         url: './server/get_text.php',
         cache: false, 
-        data: {id: 1},
+        data: {text_id: 1},
         success: function(response)
         {
           let jsonData = JSON.parse(response); 
           if (jsonData.success == "1")
           {
-            console.log('connected successfully');
-            isLoading = true;
+            console.log('1:connected successfully');
             text = jsonData.text;
             defaultSettings(); 
+            raceInterval = setInterval(()=>{
+              $.ajax({
+                type: "POST",
+                url: './server/distance.php',
+                cache: false, 
+                data: {distance: symbolsCounter},
+                success: function(response)
+                {
+                  let jsonData = JSON.parse(response); 
+                  if (jsonData.success == "1")
+                  {
+                    console.log('2:connected successfully');
+                    $racecar.css('padding-left', distance *  jsonData.distance);
+                  }
+                  else
+                  { 
+                    console.log('2:connection failed');
+                  }
+                }
+              })}, 1000);
           }
           else
           { 
-            console.log('connectin failed');
+            console.log('2:connection failed');
           }
         }
      });
@@ -92,6 +135,7 @@ const WpmText = (function($) {
 
     endGame: function () {
       clearInterval(timeInterval); 
+      clearInterval(raceInterval);
       $inputfield.val('');
       $inputfield.attr('disabled', '');
       $chart.show();
@@ -103,12 +147,10 @@ const WpmText = (function($) {
     updateView: function() {
       $inputfield.val('');
       $word.attr('class', 'correct'); // previus word is correct
-      highlightWord();
+      highlightWord(); 
     },
 
-    validateText: function(inputValue) { 
-      if (!isLoading) return;
-
+    validateText: function(inputValue) {  
       let wordSubstring = words[wordPointer].substr(0, inputValue.length);
       let isEqual = inputValue.trimEnd() === words[wordPointer];
       let isSpaceKeyPressed = inputValue.length - 1 === words[wordPointer].length;
@@ -124,7 +166,7 @@ const WpmText = (function($) {
         if (max < inputValue.length) {
           max = inputValue.length;
           symbolsCounter++;
-          $racecar.css('padding-left', distance * symbolsCounter);
+          // $racecar.css('padding-left', distance * symbolsCounter);
         } 
         $word.attr('class', 'underlined');
       } else {
