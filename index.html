@@ -32,27 +32,7 @@
   <!-- Page Content -->
   <div class="container">
     <div class="row mt-4">
-      <div class="col-lg-8 mx-auto">
-        <div class="game-config mb-2">
-          <div class="btn-group">
-            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="languageMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enghlish</button>
-            <div class="dropdown-menu" aria-labelledby="languageMenuBtn">
-              <div class="dropdown-item custom-control custom-radio">
-                <input type="radio" id="lang1" name="langs" class="custom-control-input" data-lang-id="1" value="Enghlish" checked>
-                <label class="custom-control-label ml-3" for="lang1">Enghlish</label>
-              </div>
-              <div class="dropdown-item custom-control custom-radio">
-                <input type="radio" id="lang2" name="langs" class="custom-control-input" data-lang-id="2" value="Русский">
-                <label class="custom-control-label ml-3" for="lang2">Русский</label>
-              </div>
-              <div class="dropdown-item custom-control custom-radio">
-                <input type="radio" id="lang3" name="langs" class="custom-control-input" data-lang-id="3" value="Кыргызча">
-                <label class="custom-control-label ml-3" for="lang3">Кыргызча</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <div class="col-lg-8 mx-auto"> 
         <div class="card mb-2">
           <div class="card-header">
             <div class="race-info">
@@ -96,12 +76,8 @@
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/Wpm-Module.js"></script>
-  <script src="js/Radio-Buttons-Module.js"></script>
   <script>
-  $(document).ready(function() {
-
-    radioButtonsModule.defineLang();
- 
+  $(document).ready(function() { 
     WpmText.restart();
 
     $('input#inputfield').on('input', function() {

@@ -7,7 +7,7 @@ if (isset($_POST['id'])) {
 }
 
 $sql = "SELECT * FROM `texts` 
-				WHERE lang_id=$id 
+				WHERE id=$id 
 				LIMIT 1";
 
 if($result = $mysqli->query($sql))

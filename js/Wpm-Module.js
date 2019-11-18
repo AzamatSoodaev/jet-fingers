@@ -10,7 +10,6 @@ const WpmText = (function($) {
   let distance;
   let mySpeed;
   let time_end;
-  let languageId;
   let isLoading = false;
   let $word;
   let $inputfield = $('input#inputfield');
@@ -66,17 +65,13 @@ const WpmText = (function($) {
     $racecar.css('padding-left', 0);
   }
 
-  return { 
-    setLanguageId: function(value) {
-      languageId = value;
-    },
-
+  return {  
     restart: function() {  
       $.ajax({
         type: "POST",
         url: './server/get_text.php',
         cache: false, 
-        data: {id: languageId},
+        data: {id: 1},
         success: function(response)
         {
           let jsonData = JSON.parse(response); 
