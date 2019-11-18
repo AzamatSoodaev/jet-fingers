@@ -2,13 +2,11 @@
 
 require_once 'config.php';
 
-if (isset($_POST['id'])) {
-	$id = $_POST['id'];
+if (isset($_POST['lang'])) {
+	$lang = $_POST['lang'];
 }
 
-$sql = "SELECT * FROM `texts` 
-				WHERE lang_id=$id 
-				LIMIT 1";
+$sql = "SELECT * FROM `languages` WHERE `id` = $lang";
 
 if($result = $mysqli->query($sql))
 {

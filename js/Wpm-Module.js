@@ -10,12 +10,12 @@ const WpmText = (function($) {
   let distance;
   let mySpeed;
   let time_end;
+  let languageId;
   let isLoading = false;
   let $word;
   let $inputfield = $('input#inputfield');
   let $racecar = $('#racecar');
   let $paragraph = $('p#sourceText');
-  let $audio = document.getElementById('sound-clap');
   let $chart = $('#chart');
 
   function reset() {
@@ -55,34 +55,41 @@ const WpmText = (function($) {
     }, 100); 
   } 
 
-  return {
+  function defaultSettings() {
+    reset();
+    startTimer();
+    $paragraph.html( getTextArray().join(' ') ); // show text 
+    highlightWord();
+    $chart.hide();
+    $inputfield.removeAttr('disabled');
+    $inputfield.focus();
+    $racecar.css('padding-left', 0);
+  }
+
+  return { 
+    setLanguageId: function(value) {
+      languageId = value;
+    },
+
     restart: function() {  
       $.ajax({
         type: "POST",
         url: './server/get_text.php',
         cache: false, 
+        data: {id: languageId},
         success: function(response)
         {
           let jsonData = JSON.parse(response); 
           if (jsonData.success == "1")
-          { 
+          {
             console.log('connected successfully');
-
             isLoading = true;
-
             text = jsonData.text;
-            reset();
-            startTimer();
-            $paragraph.html( getTextArray().join(' ') ); // show text 
-            highlightWord();
-            $chart.hide();
-            $inputfield.removeAttr('disabled');
-            $inputfield.focus();
-            $racecar.css('padding-left', 0);
+            defaultSettings(); 
           }
           else
           { 
-            console.log('Invalid Credentials!');
+            console.log('connectin failed');
           }
         }
      });
@@ -106,7 +113,7 @@ const WpmText = (function($) {
 
     validateText: function(inputValue) { 
       if (!isLoading) return;
-      
+
       let wordSubstring = words[wordPointer].substr(0, inputValue.length);
       let isEqual = inputValue.trimEnd() === words[wordPointer];
       let isSpaceKeyPressed = inputValue.length - 1 === words[wordPointer].length;
@@ -127,8 +134,6 @@ const WpmText = (function($) {
         $word.attr('class', 'underlined');
       } else {
         $word.attr('class', 'invalid-char');
-        $audio.currentTime = 0;
-        $audio.play();
       }
 
       if (isLastWord && isEqual) {

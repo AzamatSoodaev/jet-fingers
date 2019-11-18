@@ -58,11 +58,11 @@
   padding-bottom: 5px;
 }
 
-#racecar {
+/*#racecar {
   -webkit-transition: .5s;  
   -o-transition: .5s;  
   transition: .5s;  
-}
+}*/
 
 #finishline {
   position: absolute;

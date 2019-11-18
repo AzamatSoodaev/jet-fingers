@@ -35,21 +35,20 @@
       <div class="col-lg-8 mx-auto">
         <div class="game-config mb-2">
           <div class="btn-group">
-            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              english
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Русский</a>
-              <a class="dropdown-item" href="#">Кыргызча</a>
-            </div>
-          </div>
-
-          <div class="btn-group ml-1">
-            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Single player game
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Competition</a>
+            <button class="btn btn-sm btn-default dropdown-toggle" type="button" id="languageMenuBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enghlish</button>
+            <div class="dropdown-menu" aria-labelledby="languageMenuBtn">
+              <div class="dropdown-item custom-control custom-radio">
+                <input type="radio" id="lang1" name="langs" class="custom-control-input" data-lang-id="1" value="Enghlish" checked>
+                <label class="custom-control-label ml-3" for="lang1">Enghlish</label>
+              </div>
+              <div class="dropdown-item custom-control custom-radio">
+                <input type="radio" id="lang2" name="langs" class="custom-control-input" data-lang-id="2" value="Русский">
+                <label class="custom-control-label ml-3" for="lang2">Русский</label>
+              </div>
+              <div class="dropdown-item custom-control custom-radio">
+                <input type="radio" id="lang3" name="langs" class="custom-control-input" data-lang-id="3" value="Кыргызча">
+                <label class="custom-control-label ml-3" for="lang3">Кыргызча</label>
+              </div>
             </div>
           </div>
         </div>
@@ -94,17 +93,21 @@
   </div>
   <!-- /Page Content -->
 
-  <audio id="sound-clap" src="sounds/clap.wav"></audio>
-
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/Wpm-Module.js"></script>
+  <script src="js/Radio-Buttons-Module.js"></script>
   <script>
   $(document).ready(function() {
+
+    radioButtonsModule.defineLang();
+ 
     WpmText.restart();
+
     $('input#inputfield').on('input', function() {
       WpmText.validateText(this.value);
     });
+
     $('#start-again-btn').on('click', function() {
       WpmText.restart();
     });
