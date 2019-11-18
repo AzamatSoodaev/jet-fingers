@@ -1,7 +1,7 @@
 .underlined {
   text-decoration: underline;
   /*color: #4CAF50;*/
-  color: green;
+  color: #3F51B5;
 }
 
 .invalid-char {
@@ -19,7 +19,7 @@
 } 
 
 .correct {
-  color: green;
+  color: #4CAF50;
 }
 
 .score {
@@ -57,12 +57,6 @@
   margin-top: 10px;
   padding-bottom: 5px;
 }
-
-/*#racecar {
-  -webkit-transition: .5s;  
-  -o-transition: .5s;  
-  transition: .5s;  
-}*/
 
 #finishline {
   position: absolute;
