@@ -32,7 +32,11 @@
   <!-- Page Content -->
   <div class="container">
     <div class="row mt-4">
-      <div class="col-lg-8 mx-auto"> 
+      <div class="col-lg-7 mx-auto"> 
+        <div class="race">
+              <img id="racecar" src="images/car_silver.png" alt="racecar">
+              <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
+            </div>
         <div class="card mb-2">
           <div class="card-header">
             <div class="race-info">
@@ -40,10 +44,6 @@
             </div>
           </div>
           <div class="card-body pb-0">
-            <div class="race">
-              <img id="racecar" src="images/car_silver.png" alt="racecar">
-              <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
-            </div>
             <div>
               <p class="wpm-text unselectable" id="sourceText"></p>
               <div class="form-group mt-4">
@@ -51,6 +51,10 @@
               </div>
             </div>
           </div>
+        </div>
+        
+        <div class="text-right mb-2">
+          <a href="index.html">Another race</a>
         </div>
 
         <div class="card mb-2" id="chart"> 
@@ -65,9 +69,10 @@
               <li>Skill: <span id="skill" class="text-danger"></span></li>
             </ul>
           </div>
-          <div class="card-footer">
-            <button class="btn btn-sm btn-info" id="start-again-btn">Race again</button>
-          </div>
+          <!-- <div class="card-footer">
+            <a href="index.html">Race again</a>
+             <button class="btn btn-sm btn-info" >Race again</button>
+          </div> -->
         </div>
       </div>
     </div>
@@ -79,16 +84,7 @@
   <script src="js/Wpm-Module.js"></script>
   <script>
   $(document).ready(function() { 
-
     WpmText.restart();
-
-    $('input#inputfield').on('input', function() {
-      WpmText.validateText(this.value);
-    });
-
-    $('#start-again-btn').on('click', function() {
-      WpmText.restart();
-    });
   });
   </script>
 </body>

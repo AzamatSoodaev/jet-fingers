@@ -11,7 +11,6 @@ const WpmText = (function($) {
   let mySpeed;
   let time_end;
   let isLoading = false;
-  let raceInterval;
   let userLevel;
 
   let $word;
@@ -35,14 +34,13 @@ const WpmText = (function($) {
     noofseconds = 0;
     max = 0;
     words = text.split(' ');
-    distance = 570 / words.join('').length; 
+    distance = 540 / words.join('').length; 
+    userLevel = 'Beginner';
   } 
 
   function calculate() {
     mySpeed =  Math.round(((symbolsCounter / 5 / noofseconds) * 60) * 100) / 100;
     time_end = Math.round(noofseconds * 10) / 10;
-
-    userLevel = 'Beginner';
 
     for (let score in SKILL_LEVEL) {
       if (mySpeed >= score) {  
@@ -75,6 +73,52 @@ const WpmText = (function($) {
     }, 100); 
   }  
 
+  function updateView() {
+    $inputfield.val('');
+    $word.attr('class', 'correct');
+    highlightWord(); 
+  }
+
+  function endGame() {
+    clearInterval(timeInterval); 
+    $inputfield.unbind();
+    $inputfield.val('');
+    $inputfield.prop('disabled', true);
+    $chart.show();
+    $word.attr('class', 'correct');
+    calculate();
+    showResults(); 
+  }
+
+  function validateText() {  
+    let inputValue = this.value;
+    let wordSubstring = words[wordPointer].substr(0, inputValue.length);
+    let isEqual = inputValue.trimEnd() === words[wordPointer];
+    let isSpaceKeyPressed = inputValue.length - 1 === words[wordPointer].length;
+    let isLastWord = wordPointer === words.length - 1;
+
+    if (isSpaceKeyPressed && isEqual) {
+      updateView();
+      max = 0;
+      return;
+    }
+
+    if (inputValue === wordSubstring) {
+      if (max < inputValue.length) {
+        max = inputValue.length;
+        symbolsCounter++;
+        $racecar.css('padding-left', distance * symbolsCounter);
+      } 
+      $word.attr('class', 'underlined');
+    } else {
+      $word.attr('class', 'invalid-char');
+    }
+
+    if (isLastWord && isEqual) {
+      endGame();
+    } 
+  }
+
   return {  
     restart: function() {  
       $.ajax({
@@ -89,56 +133,12 @@ const WpmText = (function($) {
           $paragraph.html( getTextArray().join(' ') ); // show text 
           highlightWord();
           $chart.hide();
-          $inputfield.removeAttr('disabled');
+          $inputfield.prop('disabled', false);
           $inputfield.focus();
           $racecar.css('padding-left', 0);
+          $inputfield.on('input', validateText);
         }
      });
-    },
-
-    endGame: function () {
-      clearInterval(timeInterval); 
-      clearInterval(raceInterval);
-      $inputfield.val('');
-      $inputfield.attr('disabled', '');
-      $chart.show();
-      $word.attr('class', 'correct');
-      calculate();
-      showResults(); 
-    },
-
-    updateView: function() {
-      $inputfield.val('');
-      $word.attr('class', 'correct'); // previus word is correct
-      highlightWord(); 
-    },
-
-    validateText: function(inputValue) {  
-      let wordSubstring = words[wordPointer].substr(0, inputValue.length);
-      let isEqual = inputValue.trimEnd() === words[wordPointer];
-      let isSpaceKeyPressed = inputValue.length - 1 === words[wordPointer].length;
-      let isLastWord = wordPointer === words.length - 1;
-
-      if (isSpaceKeyPressed && isEqual) {
-        this.updateView();
-        max = 0;
-        return;
-      }
-
-      if (inputValue === wordSubstring) {
-        if (max < inputValue.length) {
-          max = inputValue.length;
-          symbolsCounter++;
-          $racecar.css('padding-left', distance * symbolsCounter);
-        } 
-        $word.attr('class', 'underlined');
-      } else {
-        $word.attr('class', 'invalid-char');
-      }
-
-      if (isLastWord && isEqual) {
-        this.endGame();
-      } 
-    }
+    }, 
   };
 })(jQuery);
