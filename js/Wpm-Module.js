@@ -40,6 +40,7 @@ const WpmText = (function($) {
     distance = 540 / words.join('').length; 
     userLevel = 'Beginner';
     $countDownTimer.text("01:00");
+    duration = 60;
   } 
 
   function calculate() {

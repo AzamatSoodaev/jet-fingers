@@ -54,7 +54,7 @@
               </div>
               <div class="col-sm-3">
                 <button class="btn btn-secondary" id="count-down"></button>
-                <a class="btn btn-primary" href="index.html"><i class="fas fa-sync-alt"></i></a>
+                <button class="btn btn-primary" id="reload-btn"><i class="fas fa-sync-alt"></i></button>
               </div>
             </div>
             <!--  -->
@@ -115,6 +115,7 @@
   <script>
   $(document).ready(function() { 
     WpmText.restart();
+    $('#reload-btn').on('click', () => WpmText.restart());
   });
   </script>
 </body>
