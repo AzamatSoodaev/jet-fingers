@@ -12,12 +12,15 @@ const WpmText = (function($) {
   let time_end;
   let isLoading = false;
   let userLevel;
+  let countDownTime;
+  let duration = 60;
 
   let $word;
   let $inputfield = $('input#inputfield');
   let $racecar = $('#racecar');
   let $paragraph = $('p#sourceText');
   let $chart = $('#chart'); 
+  let $countDownTimer = $("#count-down");
 
   const SKILL_LEVEL = {
     0: 'Beginner',
@@ -36,6 +39,7 @@ const WpmText = (function($) {
     words = text.split(' ');
     distance = 540 / words.join('').length; 
     userLevel = 'Beginner';
+    $countDownTimer.text("01:00");
   } 
 
   function calculate() {
@@ -68,6 +72,8 @@ const WpmText = (function($) {
   } 
 
   function startTimer() {
+    console.log('timer started');
+
     timeInterval = setInterval(() => { 
       noofseconds += 0.1; 
     }, 100); 
@@ -81,6 +87,7 @@ const WpmText = (function($) {
 
   function endGame() {
     clearInterval(timeInterval); 
+    clearInterval(countDownTime);
     $inputfield.unbind();
     $inputfield.val('');
     $inputfield.prop('disabled', true);
@@ -119,6 +126,34 @@ const WpmText = (function($) {
     } 
   }
 
+  function activate() {
+    $inputfield.on('keydown', () => {
+      console.log('game started');
+      startTimer();
+      countDownBegin();
+      countDown();
+      $inputfield.unbind('keydown');
+    });
+  }
+
+  function countDownBegin() {
+    let minutes = parseInt(duration / 60, 10);
+    let seconds = parseInt(duration % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    $countDownTimer.text(minutes + ":" + seconds);
+
+    if (--duration < 0) { 
+      endGame();
+    }  
+  }
+
+  function countDown() { 
+    countDownTime = setInterval(countDownBegin, 1000);
+  } 
+
   return {  
     restart: function() {  
       $.ajax({
@@ -128,8 +163,8 @@ const WpmText = (function($) {
         success: function(response) {
           let jsonData = JSON.parse(response);
           text = jsonData.para;
-          reset();
-          startTimer();
+          reset(); 
+          activate();
           $paragraph.html( getTextArray().join(' ') ); // show text 
           highlightWord();
           $chart.hide();

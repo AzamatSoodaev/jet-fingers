@@ -13,6 +13,9 @@
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
 
+  <!-- Fonts -->
+  <script src="https://kit.fontawesome.com/f44c30b1fe.js" crossorigin="anonymous"></script>
+
   <!-- Custom styles for this template -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/style.css">
@@ -38,35 +41,62 @@
               <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
             </div>
         <div class="card mb-2">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <div class="race-info">
               <span id="wpm">Start typing</span>
             </div>
-          </div>
+          </div> -->
           <div class="card-body pb-0">
-            <div>
-              <p class="wpm-text unselectable" id="sourceText"></p>
-              <div class="form-group mt-4">
-                <input type="text" class="form-control form-control-sm" id="inputfield" maxlength="15">
+            <p class="wpm-text unselectable" id="sourceText"></p>
+            <div class="form-row align-items-center my-4">
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="inputfield" maxlength="15">
+              </div>
+              <div class="col-sm-3">
+                <button class="btn btn-secondary" id="count-down"></button>
+                <a class="btn btn-primary" href="index.html"><i class="fas fa-sync-alt"></i></a>
               </div>
             </div>
+            <!--  -->
+            <!-- <div class="form-row align-items-center">
+              <div class="col-sm-9">
+                <input type="text" class="form-control  mb-2" id="inlineFormInput" placeholder="Type to race">
+              </div>  
+              <div class="col-sm-3">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+              </div>
+            </div> -->
           </div>
         </div>
         
-        <div class="text-right mb-2">
+       <!--  <div class="text-right mb-2">
           <a href="index.html">Another race</a>
-        </div>
+        </div>  -->
 
         <div class="card mb-2" id="chart"> 
           <div class="card-header">
-            <span class="card-title">Results</span>
+            <span class="card-title"><b>Results</b></span>
           </div>
-          <div class="card-body">
-            <ul class="mylist pl-0">
+          <div class="card-body p-0">
+           <!--  <ul class="mylist pl-0">
               <li>Speed: <span id="user_score" class="text-danger"></span></li>
               <li>Symbols: <span id="symbols" class="text-danger"></span></li>
               <li>Time: <span id="time" class="text-danger"></span></li>
               <li>Skill: <span id="skill" class="text-danger"></span></li>
+            </ul> -->
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                Speed: <span id="user_score" class="text-danger"></span>
+              </li>
+              <li class="list-group-item">
+                Symbols: <span id="symbols" class="text-danger"></span>
+              </li>
+              <li class="list-group-item">
+                Skill: <span id="skill" class="text-danger"></span>
+              </li>
+              <li class="list-group-item">
+                Time: <span id="time" class="text-danger"></span>
+              </li>
             </ul>
           </div>
           <!-- <div class="card-footer">
