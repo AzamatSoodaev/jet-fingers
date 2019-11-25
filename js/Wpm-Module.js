@@ -1,12 +1,3 @@
-const SKILL_LEVEL = {
-  0: 'Beginner',
-  25: 'Intermediate',
-  31: 'Average',
-  42: 'Pro',
-  55: 'Typemaster',
-  80: 'Megaracer'
-};
-
 const WpmText = (function($) { 
   let text;
   let words;
@@ -19,7 +10,6 @@ const WpmText = (function($) {
   let mySpeed;
   let time_end;
   let isLoading = false;
-  let userLevel;
   let countDownTime;
   let duration = 60;
 
@@ -37,7 +27,6 @@ const WpmText = (function($) {
     max = 0;
     words = text.split(' ');
     distance = 540 / words.join('').length; 
-    userLevel = 'Beginner';
     $countDownTimer.text("01:00");
     duration = 60;
   } 
@@ -45,19 +34,12 @@ const WpmText = (function($) {
   function calculate() {
     mySpeed =  Math.round(((symbolsCounter / 5 / noofseconds) * 60) * 100) / 100;
     time_end = Math.round(noofseconds * 10) / 10;
-
-    for (let score in SKILL_LEVEL) {
-      if (mySpeed >= score) {  
-        userLevel = SKILL_LEVEL[score];
-      }
-    } 
   }
 
   function showResults() {
     $('#user_score').text(`${mySpeed} wpm`);
     $('#symbols').text(symbolsCounter);
     $('#time').text(`${time_end} seconds`);
-    $('#skill').text(userLevel);
   } 
 
   function getTextArray() {
