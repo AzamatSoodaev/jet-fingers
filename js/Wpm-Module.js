@@ -1,5 +1,13 @@
-const WpmText = (function($) { 
+const SKILL_LEVEL = {
+  0: 'Beginner',
+  25: 'Intermediate',
+  31: 'Average',
+  42: 'Pro',
+  55: 'Typemaster',
+  80: 'Megaracer'
+};
 
+const WpmText = (function($) { 
   let text;
   let words;
   let wordPointer;
@@ -21,15 +29,6 @@ const WpmText = (function($) {
   let $paragraph = $('p#sourceText');
   let $chart = $('#chart'); 
   let $countDownTimer = $("#count-down");
-
-  const SKILL_LEVEL = {
-    0: 'Beginner',
-    25: 'Intermediate',
-    31: 'Average',
-    42: 'Pro',
-    55: 'Typemaster',
-    80: 'Megaracer'
-  };
 
   function reset() {
     wordPointer = -1;
@@ -74,6 +73,7 @@ const WpmText = (function($) {
 
   function startTimer() {
     console.log('timer started');
+    clearInterval(timeInterval);
 
     timeInterval = setInterval(() => { 
       noofseconds += 0.1; 
@@ -127,12 +127,13 @@ const WpmText = (function($) {
     } 
   }
 
-  function activate() {
+  function activate() { 
     $inputfield.on('keydown', () => {
       console.log('game started');
+      clearInterval(countDownTime);
       startTimer();
       countDownBegin();
-      countDown();
+      countDownTime = setInterval(countDownBegin, 1000);
       $inputfield.unbind('keydown');
     });
   }
@@ -150,10 +151,6 @@ const WpmText = (function($) {
       endGame();
     }  
   }
-
-  function countDown() { 
-    countDownTime = setInterval(countDownBegin, 1000);
-  } 
 
   return {  
     restart: function() {  

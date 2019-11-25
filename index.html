@@ -56,34 +56,15 @@
                 <button class="btn btn-secondary" id="count-down"></button>
                 <button class="btn btn-primary" id="reload-btn"><i class="fas fa-sync-alt"></i></button>
               </div>
-            </div>
-            <!--  -->
-            <!-- <div class="form-row align-items-center">
-              <div class="col-sm-9">
-                <input type="text" class="form-control  mb-2" id="inlineFormInput" placeholder="Type to race">
-              </div>  
-              <div class="col-sm-3">
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
-              </div>
-            </div> -->
+            </div> 
           </div>
-        </div>
-        
-       <!--  <div class="text-right mb-2">
-          <a href="index.html">Another race</a>
-        </div>  -->
+        </div> 
 
         <div class="card mb-2" id="chart"> 
           <div class="card-header">
             <span class="card-title"><b>Results</b></span>
           </div>
-          <div class="card-body p-0">
-           <!--  <ul class="mylist pl-0">
-              <li>Speed: <span id="user_score" class="text-danger"></span></li>
-              <li>Symbols: <span id="symbols" class="text-danger"></span></li>
-              <li>Time: <span id="time" class="text-danger"></span></li>
-              <li>Skill: <span id="skill" class="text-danger"></span></li>
-            </ul> -->
+          <div class="card-body p-0"> 
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 Speed: <span id="user_score" class="text-danger"></span>
@@ -98,11 +79,7 @@
                 Time: <span id="time" class="text-danger"></span>
               </li>
             </ul>
-          </div>
-          <!-- <div class="card-footer">
-            <a href="index.html">Race again</a>
-             <button class="btn btn-sm btn-info" >Race again</button>
-          </div> -->
+          </div> 
         </div>
       </div>
     </div>
@@ -112,7 +89,7 @@
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/Wpm-Module.js"></script>
-  <script>
+  <script>  
   $(document).ready(function() { 
     WpmText.restart();
     $('#reload-btn').on('click', () => WpmText.restart());
