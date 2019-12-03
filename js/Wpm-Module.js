@@ -4,14 +4,15 @@ const WpmText = (function($) {
   let wordPointer;
   let noofseconds;
   let timeInterval;
-  let symbolsCounter;
+  let keystrokes;
   let max;
   let distance;
   let mySpeed;
   let time_end;
   let isLoading = false;
   let countDownTime;
-  let duration = 60;
+  let duration;
+  let substraction;
   let $word;
   
   const $inputfield = $('input#inputfield');
@@ -22,24 +23,26 @@ const WpmText = (function($) {
 
   function reset() {
     wordPointer = -1;
-    symbolsCounter = 0; 
+    keystrokes = 0; 
     noofseconds = 0;
     max = 0;
     words = text.split(' ');
-    distance = 540 / words.join('').length; 
+    distance = 610 / text.length; 
     $countDownTimer.text("01:00");
-    duration = 60;
+    duration = 60; // in seconds
+    substraction = 0;
   } 
 
   function calculate() {
-    mySpeed =  Math.round(((symbolsCounter / 5 / noofseconds) * 60) * 100) / 100;
+    mySpeed =  Math.round(((keystrokes / 5 / noofseconds) * 60) * 100) / 100;
     time_end = Math.round(noofseconds * 10) / 10;
   }
 
   function showResults() {
-    $('#user_score').text(`${mySpeed} wpm`);
+    $('#user_score').text(`${mySpeed} cpm`);
 
-    console.log('symbols: ' + symbolsCounter);
+    console.log('total chars: ' + text.length);
+    console.log('keystrokes: ' + keystrokes);
     console.log('time: ' + time_end + ' seconds');
   } 
 
@@ -54,11 +57,11 @@ const WpmText = (function($) {
     $word.addClass('underlined');
   }  
 
-  function updateView() {
-    $inputfield.val('');
-    $word.attr('class', 'correct');
-    highlightWord(); 
-  }
+  // function updateView() {
+  //   $inputfield.val('');
+  //   $word.attr('class', 'correct');
+  //   highlightWord(); 
+  // }
 
   function endGame() {
     clearInterval(timeInterval); 
@@ -74,7 +77,7 @@ const WpmText = (function($) {
     showResults(); 
   }
 
-  function validateText() {  
+  function validateText() {
     if (this.value === ' ') {
       this.value = '';
       return;
@@ -87,25 +90,39 @@ const WpmText = (function($) {
     let isLastWord = wordPointer === words.length - 1;
 
     if (isSpaceKeyPressed && isEqual) {
-      updateView();
+      $inputfield.val('');
+      $word.attr('class', 'correct');
+      highlightWord(); 
       max = 0;
+
+      // Spaces need 1 keystroke
+      keystrokes++;
+      substraction++;
+
+      // Uppercase letters need 2 keystrokes
+      if (inputValue[0] === inputValue[0].toUpperCase()) {
+        keystrokes++;
+        substraction++;
+      }
+
       return;
     }
 
     if (inputValue === wordSubstring) {
       if (max < inputValue.length) {
         max = inputValue.length;
-        symbolsCounter++;
-        $racecar.css('padding-left', distance * symbolsCounter);
+        keystrokes++; 
       } 
+
       $word.attr('class', 'underlined');
+      $racecar.css('padding-left', distance * (keystrokes - substraction));
     } else {
       $word.attr('class', 'invalid-char');
     }
 
     if (isLastWord && isEqual) {
       endGame();
-    }   
+    }
   }
 
   function startTimers() {
@@ -115,9 +132,8 @@ const WpmText = (function($) {
     clearInterval(timeInterval); 
 
     timeInterval = setInterval(() => noofseconds += 0.1, 100); 
-    
-    countDown();
 
+    countDown();
     countDownTime = setInterval(countDown, 1000);
   }
 
