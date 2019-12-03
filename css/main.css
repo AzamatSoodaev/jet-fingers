@@ -1,6 +1,6 @@
 body {
   padding-top: 56px;
-  font-size: 14px;
+/*   font-size: 14px; */
 }
 
 .bg-light {
@@ -12,8 +12,8 @@ body {
 }
 
 .btn {
-	/*font-size: 14px;*/
-	/*padding: 3px 10px;*/
+	margin-left: 6px;
+	height: 40px;
 }
 
 .btn-primary {

@@ -37,25 +37,26 @@
     <div class="row mt-4">
       <div class="col-lg-7 mx-auto"> 
         <div class="race">
-              <img id="racecar" src="images/car_silver.png" alt="racecar">
-              <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
-            </div>
+          <img id="racecar" src="images/car_red.png" alt="racecar">
+          <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
+        </div>
         <div class="card mb-2"> 
           <div class="card-body pb-0">
             <p class="wpm-text unselectable" id="sourceText"></p>
             <div class="form-row align-items-center my-4">
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="inputfield" maxlength="15">
-              </div>
-              <div class="col-sm-3">
-                <button class="btn btn-secondary" id="count-down"></button>
-                <button class="btn btn-primary" id="reload-btn"><i class="fas fa-sync-alt"></i></button>
-              </div>
+              <input type="text" class="form-control" id="inputfield" maxlength="20">
+              <button class="btn btn-secondary" id="count-down"></button>
+              <button class="btn btn-primary" id="reload-btn"><i class="fas fa-sync-alt"></i></button>
             </div> 
+          </div>
+          <div class="card-footer" id="chart">
+            <p class="mb-0 text-center">
+              Speed: <code id="user_score"></code>
+            </p>
           </div>
         </div> 
 
-        <div class="card mb-2" id="chart"> 
+        <!-- <div class="card mb-2" id="chart"> 
           <div class="card-header">
             <span class="card-title"><b>Results</b></span>
           </div>
@@ -64,7 +65,7 @@
               <li class="list-group-item">
                 Speed: <span id="user_score" class="text-danger"></span>
               </li>
-              <li class="list-group-item">
+               <li class="list-group-item">
                 Symbols: <span id="symbols" class="text-danger"></span>
               </li>
               <li class="list-group-item">
@@ -72,7 +73,7 @@
               </li>
             </ul>
           </div> 
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -82,10 +83,8 @@
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/Wpm-Module.js"></script>
   <script>  
-  $(document).ready(function() { 
-    WpmText.restart();
-    $('#reload-btn').on('click', () => WpmText.restart());
-  });
+  WpmText.restart();
+  $('#reload-btn').on('click', () => WpmText.restart());
   </script>
 </body>
 

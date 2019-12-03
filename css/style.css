@@ -14,8 +14,7 @@
 }
 
 #inputfield {
-  padding: 0;
-  /* font-size: 20px; */
+  padding: 0; 
 } 
 
 .correct {
@@ -93,7 +92,10 @@
 
 #inputfield {
   padding: 0;
-  /* font-size: 20px; */
+  font-size: 20px;
+  font-weight: 500;
+  height: 40px;
+  width: 80%;
 } 
 
 .correct {
@@ -154,4 +156,8 @@
   -ms-user-select:none;
   -o-user-select:none;
   user-select:none;
+}
+
+#user_score {
+  font-size: 16px;
 }

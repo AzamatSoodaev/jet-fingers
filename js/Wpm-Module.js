@@ -12,13 +12,13 @@ const WpmText = (function($) {
   let isLoading = false;
   let countDownTime;
   let duration = 60;
-
   let $word;
-  let $inputfield = $('input#inputfield');
-  let $racecar = $('#racecar');
-  let $paragraph = $('p#sourceText');
-  let $chart = $('#chart'); 
-  let $countDownTimer = $("#count-down");
+  
+  const $inputfield = $('input#inputfield');
+  const $racecar = $('#racecar');
+  const $paragraph = $('p#sourceText');
+  const $chart = $('#chart'); 
+  const $countDownTimer = $("#count-down");
 
   function reset() {
     wordPointer = -1;
@@ -38,8 +38,9 @@ const WpmText = (function($) {
 
   function showResults() {
     $('#user_score').text(`${mySpeed} wpm`);
-    $('#symbols').text(symbolsCounter);
-    $('#time').text(`${time_end} seconds`);
+
+    console.log('symbols: ' + symbolsCounter);
+    console.log('time: ' + time_end + ' seconds');
   } 
 
   function getTextArray() {
@@ -51,15 +52,6 @@ const WpmText = (function($) {
   function highlightWord() {
     $word = $(`span[data-word-id="${++wordPointer}"]`);
     $word.addClass('underlined');
-  } 
-
-  function startTimer() {
-    console.log('timer started');
-    clearInterval(timeInterval);
-
-    timeInterval = setInterval(() => { 
-      noofseconds += 0.1; 
-    }, 100); 
   }  
 
   function updateView() {
@@ -71,16 +63,23 @@ const WpmText = (function($) {
   function endGame() {
     clearInterval(timeInterval); 
     clearInterval(countDownTime);
+
     $inputfield.unbind();
     $inputfield.val('');
     $inputfield.prop('disabled', true);
-    $chart.show();
-    $word.attr('class', 'correct');
+    $chart.show(); 
+    $paragraph.hide();
+
     calculate();
     showResults(); 
   }
 
   function validateText() {  
+    if (this.value === ' ') {
+      this.value = '';
+      return;
+    }
+
     let inputValue = this.value;
     let wordSubstring = words[wordPointer].substr(0, inputValue.length);
     let isEqual = inputValue.trimEnd() === words[wordPointer];
@@ -106,21 +105,23 @@ const WpmText = (function($) {
 
     if (isLastWord && isEqual) {
       endGame();
-    } 
+    }   
   }
 
-  function activate() { 
-    $inputfield.on('keydown', () => {
-      console.log('game started');
-      clearInterval(countDownTime);
-      startTimer();
-      countDownBegin();
-      countDownTime = setInterval(countDownBegin, 1000);
-      $inputfield.unbind('keydown');
-    });
+  function startTimers() {
+    console.log('timers started');
+
+    clearInterval(countDownTime);
+    clearInterval(timeInterval); 
+
+    timeInterval = setInterval(() => noofseconds += 0.1, 100); 
+    
+    countDown();
+
+    countDownTime = setInterval(countDown, 1000);
   }
 
-  function countDownBegin() {
+  function countDown() {
     let minutes = parseInt(duration / 60, 10);
     let seconds = parseInt(duration % 60, 10);
 
@@ -141,16 +142,17 @@ const WpmText = (function($) {
         url: './server/para.php',
         cache: false, 
         success: function(response) {
-          let jsonData = JSON.parse(response);
-          text = jsonData.para;
-          reset(); 
-          activate();
-          $paragraph.html( getTextArray().join(' ') ); // show text 
+          text = JSON.parse(response).para;
+          reset();  
+          $paragraph.html( getTextArray().join(' ') );
+          $paragraph.show();
           highlightWord();
           $chart.hide();
           $inputfield.prop('disabled', false);
           $inputfield.focus();
           $racecar.css('padding-left', 0);
+          //events
+          $inputfield.one('keydown', startTimers);
           $inputfield.on('input', validateText);
         }
      });
