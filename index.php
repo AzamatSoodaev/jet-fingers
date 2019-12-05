@@ -54,26 +54,7 @@
               Speed: <code id="user_score"></code>
             </p>
           </div>
-        </div> 
-
-        <!-- <div class="card mb-2" id="chart"> 
-          <div class="card-header">
-            <span class="card-title"><b>Results</b></span>
-          </div>
-          <div class="card-body p-0"> 
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                Speed: <span id="user_score" class="text-danger"></span>
-              </li>
-               <li class="list-group-item">
-                Symbols: <span id="symbols" class="text-danger"></span>
-              </li>
-              <li class="list-group-item">
-                Time: <span id="time" class="text-danger"></span>
-              </li>
-            </ul>
-          </div> 
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

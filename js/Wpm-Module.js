@@ -9,7 +9,6 @@ const WpmText = (function($) {
   let distance;
   let mySpeed;
   let time_end;
-  let isLoading = false;
   let countDownTime;
   let duration;
   let substraction;
@@ -39,7 +38,7 @@ const WpmText = (function($) {
   }
 
   function showResults() {
-    $('#user_score').text(`${mySpeed} cpm`);
+    $('#user_score').text(`${mySpeed} wpm`);
 
     console.log('total chars: ' + text.length);
     console.log('keystrokes: ' + keystrokes);
@@ -55,13 +54,7 @@ const WpmText = (function($) {
   function highlightWord() {
     $word = $(`span[data-word-id="${++wordPointer}"]`);
     $word.addClass('underlined');
-  }  
-
-  // function updateView() {
-  //   $inputfield.val('');
-  //   $word.attr('class', 'correct');
-  //   highlightWord(); 
-  // }
+  }
 
   function endGame() {
     clearInterval(timeInterval); 
@@ -138,8 +131,8 @@ const WpmText = (function($) {
   }
 
   function countDown() {
-    let minutes = parseInt(duration / 60, 10);
-    let seconds = parseInt(duration % 60, 10);
+    let minutes = parseInt(duration / 60);
+    let seconds = duration % 60;
 
     minutes = minutes < 10 ? "0" + minutes : minutes;
     seconds = seconds < 10 ? "0" + seconds : seconds;
