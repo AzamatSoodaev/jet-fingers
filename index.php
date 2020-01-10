@@ -64,8 +64,7 @@
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/Wpm-Module.js"></script>
   <script>  
-  WpmText.restart();
-  $('#reload-btn').on('click', () => WpmText.restart());
+    WpmText.start();
   </script>
 </body>
 
