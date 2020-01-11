@@ -1,24 +1,26 @@
 const WpmText = (function($) {
-    let text;
-    let words;
-    let wordPointer;
-    let noofseconds;
-    let timeInterval;
-    let keystrokes;
-    let max;
-    let distance;
-    let mySpeed;
-    let time_end;
-    let countDownTime;
-    let duration;
-    let substraction;
-    let $word;
+    let 
+        text,
+        words,
+        wordPointer,
+        noofseconds,
+        timeInterval,
+        keystrokes,
+        max,
+        distance,
+        mySpeed,
+        time_end,
+        countDownTime,
+        duration,
+        substraction,
+        $word;
 
-    const $inputfield = $('input#inputfield');
-    const $racecar = $('#racecar');
-    const $paragraph = $('p#sourceText');
-    const $chart = $('#chart');
-    const $countDownTimer = $("#count-down");
+    const 
+        $inputfield = $('input#inputfield');
+        $racecar = $('#racecar'),
+        $paragraph = $('p#sourceText'),
+        $chart = $('#chart'),
+        $countDownTimer = $("#count-down");
 
     function reset() {
         wordPointer = -1;

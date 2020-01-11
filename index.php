@@ -27,7 +27,22 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">140 Wpm</a>
+      <a class="navbar-brand" href="/">140wpm</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+         <!--  <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="#">Sign in</a>
+          </li> 
+        </ul>
+      </div>
     </div>
   </nav>
   <!-- /Navigation -->
@@ -40,18 +55,24 @@
           <img id="racecar" src="images/car_red.png" alt="racecar">
           <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
         </div>
-        <div class="card mb-2"> 
-          <div class="card-body pb-0">
-            <p class="wpm-text unselectable" id="sourceText"></p>
-            <div class="form-row align-items-center my-4">
-              <input type="text" class="form-control" id="inputfield" maxlength="20">
-              <button class="btn btn-secondary" id="count-down"></button>
-              <button class="btn btn-primary" id="reload-btn"><i class="fas fa-sync-alt"></i></button>
-            </div> 
+        <div class="card"> 
+          <div class="card-body">
+            <p class="wpm-text unselectable" id="sourceText"></p> 
+            <div class="form-row">
+              <div class="col-9">
+                <input type="text" class="form-control" id="inputfield" maxlength="20">
+              </div>
+              <div class="col">
+                <button class="btn btn-block btn-outline-secondary" id="count-down"></button>
+              </div>
+              <div class="col">
+                <button class="btn btn-block btn-outline-primary" id="reload-btn"><i class="fas fa-sync-alt"></i></button>
+              </div>
+            </div>
           </div>
           <div class="card-footer" id="chart">
             <p class="mb-0 text-center">
-              Speed: <code id="user_score"></code>
+              Your speed: <code id="user_score"></code>
             </p>
           </div>
         </div>
