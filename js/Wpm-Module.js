@@ -13,6 +13,7 @@ const WpmText = (function($) {
         countDownTime,
         duration,
         substraction,
+        offsetTop,
         $word;
 
     const 
@@ -32,6 +33,7 @@ const WpmText = (function($) {
         $countDownTimer.text("01:00");
         duration = 60; // in seconds
         substraction = 0;
+        offsetTop = 21;
         
         $chart.hide();
         $inputfield.prop('disabled', false);
@@ -107,6 +109,11 @@ const WpmText = (function($) {
             if (inputValue[0] === inputValue[0].toUpperCase()) {
                 keystrokes++;
                 substraction++;
+            }
+
+            if ($word[0].offsetTop !== offsetTop) {
+                $('.text-container').scrollTop($word[0].offsetTop - 21);
+                offsetTop = $word[0].offsetTop;
             }
 
             return;

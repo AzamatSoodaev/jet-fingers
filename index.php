@@ -57,8 +57,10 @@
         </div>
         <div class="card"> 
           <div class="card-body">
-            <p class="wpm-text unselectable" id="sourceText"></p> 
-            <div class="form-row">
+            <div class="text-container">
+              <p class="wpm-text unselectable" id="sourceText"></p> 
+            </div>
+            <div class="form-row mt-2">
               <div class="col-9">
                 <input type="text" class="form-control" id="inputfield" maxlength="20">
               </div>

@@ -88,6 +88,8 @@
 
 .wpm-text {
   font-size: 20px;
+  word-spacing: 0.3rem;
+  font-weight: 500;
 }
 
 #inputfield {
@@ -148,6 +150,11 @@
 .road {
   border-bottom: 3px dotted #ccc; 
   margin-top: 50px;
+}
+
+.text-container {
+  max-height: 65px;
+  overflow: auto;
 }
 
 .unselectable {
