@@ -72,7 +72,7 @@
               </div>
             </div>
           </div>
-          <div class="card-footer" id="chart">
+          <div class="card-footer bg-white" id="chart">
             <p class="mb-0 text-center">
               Your speed: <code id="user_score"></code>
             </p>

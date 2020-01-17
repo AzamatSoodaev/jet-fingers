@@ -1,23 +1,24 @@
+const KEYSTROKES_PER_WORD = 5;
+
 const WpmText = (function($) {
     let 
         text,
         words,
         wordPointer,
-        noofseconds,
-        timeInterval,
+        started_at,
+        time_end,
+        total_time,
+        countDownTime,
         keystrokes,
         max,
         distance,
         mySpeed,
-        time_end,
-        countDownTime,
-        duration,
         substraction,
         offsetTop,
         $word;
 
     const 
-        $inputfield = $('input#inputfield');
+        $inputfield = $('input#inputfield'),
         $racecar = $('#racecar'),
         $paragraph = $('p#sourceText'),
         $chart = $('#chart'),
@@ -26,28 +27,28 @@ const WpmText = (function($) {
     function reset() {
         wordPointer = -1;
         keystrokes = 0;
-        noofseconds = 0;
         max = 0;
         words = text.split(' ');
         distance = 610 / text.length;
-        $countDownTimer.text("01:00");
-        duration = 60; // in seconds
+        total_time = 60; // in seconds
         substraction = 0;
         offsetTop = 21;
+        started_at = 0;
         
+        $countDownTimer.text("01:00");
         $chart.hide();
         $inputfield.prop('disabled', false);
         $inputfield.focus();
         $inputfield.val('');
         $racecar.css('padding-left', 0); 
+        $('.text-container').scrollTop(0);
 
         clearInterval(countDownTime);
-        clearInterval(timeInterval);
     }
 
     function calculate() {
-        mySpeed = Math.round(((keystrokes / 5 / noofseconds) * 60) * 100) / 100;
-        time_end = Math.round(noofseconds * 10) / 10;
+        time_end = (new Date().getTime() - started_at) / 1000; 
+        mySpeed = Math.round(((keystrokes / KEYSTROKES_PER_WORD / time_end) * 60) * 100) / 100;
     }
 
     function showResults() {
@@ -55,7 +56,7 @@ const WpmText = (function($) {
 
         console.log('total chars: ' + text.length);
         console.log('keystrokes: ' + keystrokes);
-        console.log('time: ' + time_end + ' seconds');
+        console.log('time: ' +  time_end);
     }
 
     function getTextArray() {
@@ -70,7 +71,6 @@ const WpmText = (function($) {
     }
 
     function endGame() {
-        clearInterval(timeInterval);
         clearInterval(countDownTime);
 
         $inputfield.unbind();
@@ -126,9 +126,11 @@ const WpmText = (function($) {
             }
 
             $word.attr('class', 'underlined');
+            $inputfield.css('background-color', '#ffffff');
             $racecar.css('padding-left', distance * (keystrokes - substraction));
         } else {
             $word.attr('class', 'invalid-char');
+            $inputfield.css('background-color', '#fbc7db');
         }
 
         if (isLastWord && isEqual) {
@@ -137,29 +139,24 @@ const WpmText = (function($) {
     }
 
     function startTimers() {
-        console.log('timers');
+        console.log('timer started');
 
-        countNoofseconds();
-        timeInterval = setInterval(countNoofseconds, 100);
+        started_at = new Date().getTime();
 
         countDown();
         countDownTime = setInterval(countDown, 1000);
     }
 
-    function countNoofseconds() {
-        noofseconds += 0.1;
-    }
-
     function countDown() {
-        let minutes = parseInt(duration / 60);
-        let seconds = duration % 60;
+        let minutes = parseInt(total_time / 60);
+        let seconds = total_time % 60;
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
         $countDownTimer.text(minutes + ":" + seconds);
 
-        if (--duration < 0) {
+        if (--total_time < 0) {
             endGame();
         }
     }
