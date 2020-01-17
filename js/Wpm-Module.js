@@ -61,12 +61,12 @@ const WpmText = (function($) {
 
     function getTextArray() {
         return text.split(" ").map((word, id) => {
-            return `<span data-word-id="${id}">${word}</span>`;
+            return `<span id="${id}">${word}</span>`;
         });
     }
 
     function highlightWord() {
-        $word = $(`span[data-word-id="${++wordPointer}"]`);
+        $word = $(`#${++wordPointer}`);
         $word.addClass('underlined');
     }
 
