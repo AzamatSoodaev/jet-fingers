@@ -1,12 +1,26 @@
+.navbar {
+  box-shadow: 1px 2px 18px rgba(0,0,0,.1);
+}
+
+.nav-link {
+  background-color: #4a76a8;
+  border-radius: 3px;
+  color: #fff !important;
+}
+
+.inline-shadow {
+ -moz-box-shadow:    inset 0 0 10px #000000;
+ -webkit-box-shadow: inset 0 0 6px #e2e2e2;
+ box-shadow: inset 0 0 6px #e2e2e2;
+}
+
 .underlined {
   text-decoration: underline;
-  /*color: #4CAF50;*/
-  color: green;
+  color: #3F51B5;
 }
 
 .invalid-char {
   color: #dc3545;
-  /*background-color: #ffdada;*/
 }
 
 .wpm-text {
@@ -14,12 +28,11 @@
 }
 
 #inputfield {
-  padding: 0;
-  font-size: 20px;
+  padding: 0; 
 } 
 
 .correct {
-  color: green;
+  color: #4CAF50;
 }
 
 .score {
@@ -58,12 +71,6 @@
   padding-bottom: 5px;
 }
 
-/*#racecar {
-  -webkit-transition: .5s;  
-  -o-transition: .5s;  
-  transition: .5s;  
-}*/
-
 #finishline {
   position: absolute;
   right: 0;
@@ -82,4 +89,114 @@
   -ms-user-select:none;
   -o-user-select:none;
   user-select:none;
+}
+
+.underlined {
+  text-decoration: underline;
+  color: #3F51B5;
+}
+
+.invalid-char {
+  color: #dc3545;
+}
+
+.wpm-text {
+  font-size: 20px;
+  word-spacing: 0.3rem;
+  font-weight: 500;
+}
+
+#inputfield {
+  font-size: 20px;
+  font-weight: 500;
+  height: 40px;
+} 
+
+.correct {
+  color: #4CAF50;
+}
+
+.score {
+  padding-left: 20px;
+  border-left: 2px solid rgba(0,0,0,.125);
+}
+
+#textarea,
+#chart {
+  display: none;
+}
+
+.mylist {
+  font-weight: 500;
+  list-style-type: none;
+  line-height: 2;
+}
+
+.race-info {
+  line-height: 1;
+  position: relative;
+}
+
+#speedometer {
+  position: absolute;
+  left: -15px;
+  top: -15px;
+  width: 58px;
+}
+
+.race {
+  position: relative;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 35px;
+  border-bottom: 4px dotted #a2a3a3;
+}
+
+#racecar {
+  position: absolute;
+  top: 0;
+  width: 77px;
+}
+
+#finishline {
+  position: absolute;
+  width: 25px;
+  right: 0;
+  top: 0;
+}
+
+.road {
+  border-bottom: 3px dotted #ccc; 
+  margin-top: 50px;
+}
+
+.text-container {
+  max-height: 65px;
+  overflow: auto;
+}
+
+.unselectable {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  -o-user-select:none;
+  user-select:none;
+}
+
+#sourceText {
+  margin-bottom: 2.3rem;
+}
+
+#reload-btn {
+  border-color: #4a76a8;
+}
+
+#reload-btn:hover {
+  color: #fff;
+  background-color: #3468a5 !important;
+}
+
+.badge {
+  color: #E91E63;
+  font-size: 15px;
 }
