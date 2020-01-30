@@ -1,12 +1,26 @@
+.navbar {
+  box-shadow: 1px 2px 18px rgba(0,0,0,.1);
+}
+
+.nav-link {
+  background-color: #4a76a8;
+  border-radius: 3px;
+  color: #fff !important;
+}
+
+.inline-shadow {
+ -moz-box-shadow:    inset 0 0 10px #000000;
+ -webkit-box-shadow: inset 0 0 6px #e2e2e2;
+ box-shadow: inset 0 0 6px #e2e2e2;
+}
+
 .underlined {
   text-decoration: underline;
-  /*color: #4CAF50;*/
   color: #3F51B5;
 }
 
 .invalid-char {
   color: #dc3545;
-  /*background-color: #ffdada;*/
 }
 
 .wpm-text {
@@ -75,15 +89,15 @@
   -ms-user-select:none;
   -o-user-select:none;
   user-select:none;
-}.underlined {
+}
+
+.underlined {
   text-decoration: underline;
-  /*color: #4CAF50;*/
   color: #3F51B5;
 }
 
 .invalid-char {
   color: #dc3545;
-  /*background-color: #ffdada;*/
 }
 
 .wpm-text {
@@ -93,11 +107,9 @@
 }
 
 #inputfield {
-/*   padding: 0; */
   font-size: 20px;
   font-weight: 500;
   height: 40px;
-/*   width: 80%; */
 } 
 
 .correct {
@@ -133,18 +145,24 @@
 }
 
 .race {
-  border-bottom: 4px dotted #a2a3a3;
-  margin-bottom: 20px;
   position: relative;
-  margin-top: 10px;
-  padding-bottom: 5px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  padding-bottom: 35px;
+  border-bottom: 4px dotted #a2a3a3;
+}
+
+#racecar {
+  position: absolute;
+  top: 0;
+  width: 77px;
 }
 
 #finishline {
   position: absolute;
-  right: 0;
   width: 25px;
-  top: 0px;
+  right: 0;
+  top: 0;
 }
 
 .road {
@@ -165,17 +183,20 @@
   user-select:none;
 }
 
-#user_score {
-  font-size: 20px;
-  font-weight: bold;
+#sourceText {
+  margin-bottom: 2.3rem;
 }
 
 #reload-btn {
   border-color: #4a76a8;
-  color: #4a76a8;
 }
 
 #reload-btn:hover {
   color: #fff;
   background-color: #3468a5 !important;
+}
+
+.badge {
+  color: #E91E63;
+  font-size: 15px;
 }

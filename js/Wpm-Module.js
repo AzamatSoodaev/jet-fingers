@@ -1,4 +1,5 @@
 const KEYSTROKES_PER_WORD = 5;
+// const ROAD_LENGTH = 535;
 
 const WpmText = (function($) {
     let 
@@ -11,10 +12,13 @@ const WpmText = (function($) {
         countDownTime,
         keystrokes,
         max,
-        distance,
+        // distance,
         mySpeed,
-        substraction,
         offsetTop,
+        total_keystrokes,
+        accuracy,
+        errors,
+        lastWord,
         $word;
 
     const 
@@ -24,64 +28,78 @@ const WpmText = (function($) {
         $chart = $('#chart'),
         $countDownTimer = $("#count-down");
 
-    function reset() {
+    const reset = (response) => {
+        text = JSON.parse(response).para;
+        words = text.split(' ');
         wordPointer = -1;
         keystrokes = 0;
         max = 0;
-        words = text.split(' ');
-        distance = 610 / text.length;
-        total_time = 60; // in seconds
-        substraction = 0;
+        total_keystrokes = text.length + (text.match(/[A-Z]/g) || []).length;
+        // distance = ROAD_LENGTH / total_keystrokes;
+        total_time = 60; // seconds
         offsetTop = 21;
         started_at = 0;
+        accuracy = 0;
+        lastWord = '';
+        errors = 0; 
         
         $countDownTimer.text("01:00");
         $chart.hide();
         $inputfield.prop('disabled', false);
         $inputfield.focus();
         $inputfield.val('');
-        $racecar.css('padding-left', 0); 
+        $racecar.css('left', 0); 
         $('.text-container').scrollTop(0);
 
         clearInterval(countDownTime);
-    }
+    };
 
-    function calculate() {
+    const calculate = () => {
         time_end = (new Date().getTime() - started_at) / 1000; 
         mySpeed = Math.round(((keystrokes / KEYSTROKES_PER_WORD / time_end) * 60) * 100) / 100;
-    }
 
-    function showResults() {
+        if (keystrokes > 0) {
+            accuracy = Math.round((100 - ((errors/KEYSTROKES_PER_WORD) * 100 / (keystrokes/KEYSTROKES_PER_WORD))) * 100) / 100;
+        }
+    };
+
+    const showResults = () => {
         $('#user_score').text(`${mySpeed} wpm`);
+        $('#accuracy').text(accuracy + '%');
+        $('#time').text(time_end + ' sec');
 
+        $inputfield.val('');
+        $inputfield.prop('disabled', true);
+        $paragraph.hide();
+        $chart.show();
+
+        // Debugging
         console.log('total chars: ' + text.length);
         console.log('keystrokes: ' + keystrokes);
         console.log('time: ' +  time_end);
-    }
+        console.log('accuracy: ' + accuracy);
+    };
 
-    function getTextArray() {
+    const getTextArray = () => {
         return text.split(" ").map((word, id) => {
             return `<span id="${id}">${word}</span>`;
         });
-    }
+    };
 
-    function highlightWord() {
+    const highlightWord = () => {
         $word = $(`#${++wordPointer}`);
         $word.addClass('underlined');
-    }
+    };
 
-    function endGame() {
-        clearInterval(countDownTime);
-
-        $inputfield.unbind();
-        $inputfield.val('');
-        $inputfield.prop('disabled', true);
-        $chart.show();
-        $paragraph.hide();
-
+    const endGame = () => {
+        clearInterval(countDownTime); 
         calculate();
         showResults();
-    }
+    };
+
+    const moveCar = () => {
+        $racecar.css('left', ($('.race').width() - 100) / total_keystrokes * keystrokes);
+    };
 
     function validateText() {
         if (this.value === ' ') {
@@ -103,12 +121,10 @@ const WpmText = (function($) {
 
             // Spaces need 1 keystroke
             keystrokes++;
-            substraction++;
 
-            // Uppercase letters need 2 keystrokes
+            // Uppercase letter = 2 keystrokes
             if (inputValue[0] === inputValue[0].toUpperCase()) {
                 keystrokes++;
-                substraction++;
             }
 
             if ($word[0].offsetTop !== offsetTop) {
@@ -125,10 +141,17 @@ const WpmText = (function($) {
                 keystrokes++;
             }
 
+            moveCar();
             $word.attr('class', 'underlined');
             $inputfield.css('background-color', '#ffffff');
-            $racecar.css('padding-left', distance * (keystrokes - substraction));
         } else {
+
+            if (lastWord !== words[wordPointer]) {
+                errors++;
+            }
+
+            lastWord = words[wordPointer];
+
             $word.attr('class', 'invalid-char');
             $inputfield.css('background-color', '#fbc7db');
         }
@@ -138,47 +161,42 @@ const WpmText = (function($) {
         }
     }
 
-    function startTimers() {
-        console.log('timer started');
+    const startTimers = (e) => {
+        const letters = /^[0-9a-zA-Z]+$/;
 
-        started_at = new Date().getTime();
+        if (String.fromCharCode(e.keyCode).match(letters) || e.keyCode === 16) {
 
-        countDown();
-        countDownTime = setInterval(countDown, 1000);
-    }
+            console.log('timer started');
 
-    function countDown() {
+            started_at = new Date().getTime();
+
+            countDown();
+            countDownTime = setInterval(countDown, 1000);
+
+            $inputfield.unbind('keydown');
+        }
+    };
+
+    const countDown = () => {
         let minutes = parseInt(total_time / 60);
         let seconds = total_time % 60;
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
+        // Display timer
         $countDownTimer.text(minutes + ":" + seconds);
 
         if (--total_time < 0) {
             endGame();
         }
-    }
-
-    function render(response) {
-        text = JSON.parse(response).para;
-        
-        reset();
-        
-        $paragraph.html(getTextArray().join(' '));
-        $paragraph.show();
-        
-        highlightWord();
-        
-        $inputfield.unbind();
-        $inputfield.one('keydown', startTimers);
-        $inputfield.on('input', validateText);
-    }
+    };
 
     return {
         start: function() {
             this.post();
+
+            $( window ).resize(moveCar);
 
             $('#reload-btn').on('click', () => this.post());
         },
@@ -188,7 +206,16 @@ const WpmText = (function($) {
                 type: "POST",
                 url: './server/para.php', 
                 success: function(response) {
-                    render(response);
+                    reset(response);
+
+                    $paragraph.html(getTextArray().join(' '));
+                    $paragraph.show();
+
+                    highlightWord();
+                    
+                    $inputfield.unbind();
+                    $inputfield.on('keydown', e => startTimers(e));
+                    $inputfield.on('input', validateText);
                 }
             });
         },
