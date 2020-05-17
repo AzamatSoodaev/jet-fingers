@@ -20,12 +20,13 @@ if ($result = $mysqli->query($sql))
     while($row = $result->fetch_array())
     {  
       $score .= "<tr>
-                  <th scope=\"row\">{$i}</th>
+                  <td>{$i}</td>
                   <td>{$row['username']}</td>
-                  <td>{$row['speed']}</td>
+                  <td>{$row['speed']} wpm</td>
                   <td>{$row['recorded_at']}</td>
                 </tr>";
       $i++;
+
     } 
     $result->free();
   }

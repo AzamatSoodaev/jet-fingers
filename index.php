@@ -56,10 +56,10 @@
 
         <div class="card mb-4"> 
           <div class="card-body inline-shadow">
-            <table class="table table-borderless table-sm text-dark">
+            <table class="table table-borderless table-sm text-dark" style="font-size: 14px">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col"></th>
                   <th scope="col">Name</th>
                   <th scope="col">Speed</th>
                   <th scope="col">Time</th>
