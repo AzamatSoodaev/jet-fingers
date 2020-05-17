@@ -25,7 +25,7 @@
           <img id="racecar" src="images/car_red.png" alt="racecar">
           <img id="finishline" src="https://image.flaticon.com/icons/svg/148/148882.svg">
         </div>
-        <div class="card"> 
+        <div class="card mb-4"> 
           <div class="card-body inline-shadow ">
             <div class="text-container">
               <p class="wpm-text unselectable" id="sourceText"></p> 
@@ -51,6 +51,22 @@
                   <li class="list-group-item">Time:<span class="badge badge-pill" id="time"></span>
                 </li>
               </ul>
+          </div>
+        </div>
+
+        <div class="card mb-4"> 
+          <div class="card-body inline-shadow">
+            <table class="table table-borderless table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Speed</th>
+                  <th scope="col">Time</th>
+                </tr>
+              </thead>
+              <tbody id="score"></tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -70,21 +70,43 @@ const WpmText = (function($) {
 
     const checkUser = () => {
     	if ( isAuthorized() ) {
-			$('#login').text(localStorage.getItem('user'))
+            $('#login').text(localStorage.getItem('user'))
 		}
     };
 
     const showLoginPrompt = () => {
-    	let username;
+    	let username = '';
 
     	if ( isAuthorized() ) {
     		username = localStorage.getItem('user');
     	} else {
-    		username = prompt('Your name:');
-    		localStorage.setItem('user', username);
-    	}
+            username = prompt('Your username:');
 
-		$('#login').text(username);
+            $.ajax({
+                type: "POST",
+                url: './server/login.php',
+                data: {username: username},
+                success: function(response) {
+                    let res = JSON.parse(response);
+                    alert(res.message);
+
+                    if (res.status === 1) {
+                        localStorage.setItem('user', username);
+                        $('#login').text(username);
+                    }
+                }
+            });
+    	}
+    };
+
+    const getScore = () => {
+        $.ajax({
+            type: "POST",
+            url: './server/score.php',
+            success: function(response) {
+                $('#score').html(response);
+            }
+        });
     };
 
     const showResults = () => {
@@ -219,6 +241,7 @@ const WpmText = (function($) {
     return {
         start: function() {
             this.post();
+            getScore();
 
             $( window ).resize(moveCar);
 
