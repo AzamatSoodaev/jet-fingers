@@ -16,7 +16,7 @@ $result = $mysqli->query($sql);
 
 if ($result->num_rows != 0) 
 {
-	$message = "This username is already taken.";
+	$message = "This username is already taken. Please login again";
   $status = 0;
 }
 else

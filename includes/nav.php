@@ -1,6 +1,6 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark">
-  <div class="container">
+  <div class="container" style="max-width: 665px">
     <a class="navbar-brand" href="/">
       <img src="images/logo1.jpg" alt="" width="120">
     </a>

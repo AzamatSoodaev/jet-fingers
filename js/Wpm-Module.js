@@ -80,7 +80,11 @@ const WpmText = (function($) {
     	if ( isAuthorized() ) {
     		username = localStorage.getItem('user');
     	} else {
-            username = prompt('Your username:');
+            username = prompt('Beta testing. Please, type your username.');
+
+            while (username.length < 5) {
+                username = prompt('Minimum 5 chars. Your username:');
+            }
 
             $.ajax({
                 type: "POST",
@@ -110,6 +114,18 @@ const WpmText = (function($) {
     };
 
     const showResults = () => {
+        if (isAuthorized()) {
+            $.ajax({
+                type: "POST",
+                url: './server/insert.php',
+                data: {username: localStorage.getItem('user'), speed: mySpeed},
+                success: function(response) {
+                    console.log(response);
+                    getScore();
+                }
+            });
+        }
+
         $('#user_score').text(`${mySpeed} wpm`);
         $('#accuracy').text(accuracy + '%');
         $('#time').text(time_end + ' sec');

@@ -56,7 +56,7 @@
 
         <div class="card mb-4"> 
           <div class="card-body inline-shadow">
-            <table class="table table-borderless table-sm">
+            <table class="table table-borderless table-sm text-dark">
               <thead>
                 <tr>
                   <th scope="col">#</th>
