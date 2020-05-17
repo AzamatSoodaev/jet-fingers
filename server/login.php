@@ -38,3 +38,5 @@ echo json_encode([
 	'status' => $status,
 	'message' => $message
 ]);
+
+$mysqli->close(); 
