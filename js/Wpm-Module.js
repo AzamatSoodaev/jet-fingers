@@ -19,6 +19,7 @@ const WpmText = (function($) {
         accuracy,
         errors,
         lastWord,
+        isUser,
         $word;
 
     const 
@@ -61,6 +62,29 @@ const WpmText = (function($) {
         if (keystrokes > 0) {
             accuracy = Math.round((100 - ((errors/KEYSTROKES_PER_WORD) * 100 / (keystrokes/KEYSTROKES_PER_WORD))) * 100) / 100;
         }
+    };
+
+    const isAuthorized = () => {
+    	return localStorage.getItem('user');
+    };
+
+    const checkUser = () => {
+    	if ( isAuthorized() ) {
+			$('#login').text(localStorage.getItem('user'))
+		}
+    };
+
+    const showLoginPrompt = () => {
+    	let username;
+
+    	if ( isAuthorized() ) {
+    		username = localStorage.getItem('user');
+    	} else {
+    		username = prompt('Your name:');
+    		localStorage.setItem('user', username);
+    	}
+
+		$('#login').text(username);
     };
 
     const showResults = () => {
@@ -198,6 +222,8 @@ const WpmText = (function($) {
 
             $( window ).resize(moveCar);
 
+            checkUser();
+			$('#login').on('click', showLoginPrompt);
             $('#reload-btn').on('click', () => this.post());
         },
 
