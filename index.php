@@ -77,6 +77,7 @@
   <?php require_once 'includes/footer.php'; ?>
 
   <script src="js/Wpm-Module.js"></script>
+  <script src="js/copyright.js"></script>
   <script>  
     WpmText.start();
   </script>
