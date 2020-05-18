@@ -16,7 +16,7 @@
 
   <!-- Navigation -->
   <?php require_once 'includes/nav.php'; ?>
-  
+
   <!-- Page Content -->
   <div class="container">
     <div class="row mt-5">
