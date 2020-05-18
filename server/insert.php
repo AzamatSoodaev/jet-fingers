@@ -31,7 +31,7 @@ $sql = "SELECT id FROM users WHERE username = '$username'";
 
 $id = $mysqli->query($sql)->fetch_array()['id'];
 
-$sql = "INSERT INTO `score`(`user_id`, `speed`) VALUES ($id, $speed)";
+$sql = "INSERT INTO `score`(`user_id`, `speed`, `para_id`) VALUES ($id, $speed, $user_text_id)";
 
 $mysqli->query($sql);
 $mysqli->close(); 

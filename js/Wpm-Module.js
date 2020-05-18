@@ -122,6 +122,8 @@ const WpmText = (function($) {
     };
 
     const showResults = () => {
+        if (keystroke_count < text.length) return;
+
         if (isAuthorized()) {
             $.ajax({
                 type: "POST",
@@ -177,6 +179,8 @@ const WpmText = (function($) {
     };
 
     function validateText() {
+        keystroke_count++;
+
         if (this.value === ' ') {
             this.value = '';
             return;
