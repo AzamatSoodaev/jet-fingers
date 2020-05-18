@@ -20,7 +20,9 @@ const WpmText = (function($) {
         errors,
         lastWord,
         isUser,
-        $word;
+        $word,
+        para_id,
+        keystroke_count;
 
     const 
         $inputfield = $('input#inputfield'),
@@ -31,6 +33,7 @@ const WpmText = (function($) {
 
     const reset = (response) => {
         text = JSON.parse(response).para;
+        para_id = JSON.parse(response).id;
         words = text.split(' ');
         wordPointer = -1;
         keystrokes = 0;
@@ -42,7 +45,8 @@ const WpmText = (function($) {
         started_at = 0;
         accuracy = 0;
         lastWord = '';
-        errors = 0; 
+        errors = 0;
+        keystroke_count = 0;
         
         $countDownTimer.text("01:00");
         $chart.hide();
@@ -113,14 +117,22 @@ const WpmText = (function($) {
         });
     };
 
+    const keystrokes_counter = () => {
+
+    };
+
     const showResults = () => {
         if (isAuthorized()) {
             $.ajax({
                 type: "POST",
                 url: './server/insert.php',
-                data: {username: localStorage.getItem('user'), speed: mySpeed},
+                data: {
+                    u: localStorage.getItem('user'), 
+                    s: mySpeed,
+                    c: text,
+                    ip: para_id
+                },
                 success: function(response) {
-                    console.log(response);
                     getScore();
                 }
             });
@@ -140,6 +152,7 @@ const WpmText = (function($) {
         console.log('keystrokes: ' + keystrokes);
         console.log('time: ' +  time_end);
         console.log('accuracy: ' + accuracy);
+        console.log('count: ' + keystroke_count);
     };
 
     const getTextArray = () => {

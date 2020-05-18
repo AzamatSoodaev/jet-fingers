@@ -19,7 +19,8 @@ $SKILL_LEVEL = [
   'Average'      => '3.png',
   'Pro'          => '4.png',
   'Typemaster'   => '5.png',
-  'Megaracer'    => '6.png'
+  'Megaracer'    => '6.png',
+  'Jetfinger'    => 'signaling.png'
 ];
 
 function getSckill($speed)
@@ -29,7 +30,8 @@ function getSckill($speed)
   else if ($speed >= 31 && $speed < 42) $skill_level = 'Average';
   else if ($speed >= 42 && $speed < 55) $skill_level = 'Pro';
   else if ($speed >= 55 && $speed < 80) $skill_level = 'Typemaster';
-  else if ($speed >= 80) $skill_level = 'Megaracer';
+  else if ($speed >= 80 && $speed < 100) $skill_level = 'Megaracer';
+  else if ($speed >= 100) $skill_level = 'Jetfinger';
 
   return $skill_level;
 }

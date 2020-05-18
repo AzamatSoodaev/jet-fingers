@@ -1,8 +1,21 @@
 <?php 
 
-$paraString = file_get_contents('para.json');
-$paragraphs = json_decode($paraString, true);
-$paraCount = count($paragraphs);
-$randomNumber = rand(0, $paraCount);
- 
-echo json_encode($paragraphs[$randomNumber]);
+require_once 'config.php';
+
+$randomNumber = rand(1, 2012);
+
+$sql = "SELECT * FROM `paragraphs` WHERE id = {$randomNumber}";
+
+$paragraph = $mysqli->query($sql);
+
+if ($paragraph->num_rows > 0) 
+{
+	$row = $paragraph->fetch_assoc();
+	
+  echo json_encode([
+  	'id' => $row['id'],
+  	'para' => $row['para']
+  ]);
+}
+
+$mysqli->close();
