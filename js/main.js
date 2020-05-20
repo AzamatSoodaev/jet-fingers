@@ -1,7 +1,7 @@
 const KEYSTROKES_PER_WORD = 5;
 // const ROAD_LENGTH = 535;
 
-const WpmText = (function($) {
+const Main = (function($) {
     let 
         text,
         words,
@@ -19,7 +19,6 @@ const WpmText = (function($) {
         accuracy,
         errors,
         lastWord,
-        isUser,
         $word,
         para_id,
         keystroke_count;
@@ -117,10 +116,6 @@ const WpmText = (function($) {
         });
     };
 
-    const keystrokes_counter = () => {
-
-    };
-
     const showResults = () => {
         if (keystroke_count < text.length) return;
 
@@ -134,7 +129,7 @@ const WpmText = (function($) {
                     c: text,
                     ip: para_id
                 },
-                success: function(response) {
+                success: function() {
                     getScore();
                 }
             });

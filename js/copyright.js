@@ -11,11 +11,7 @@ $(document).ready(function() {
         if (e.keyCode == ctrlKey || e.keyCode == cmdKey) ctrlDown = false;
     });
 
-    // $("#inputfield").keydown(function(e) {
-    //     if (ctrlDown && (e.keyCode == vKey || e.keyCode == cKey)) return false;
-    // });
-    
-    // Document Ctrl + C/V 
+    // Document Ctrl + C/V
     $(document).keydown(function(e) {
         if (ctrlDown && (e.keyCode == cKey)) { 
             e.preventDefault();

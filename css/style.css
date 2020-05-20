@@ -1,3 +1,35 @@
+.bg-light {
+  background-color: #f5f5f5 !important;
+}
+
+.bg-primary {
+  background-color: #4a76a8 !important;
+}
+
+.btn {
+  height: 40px;
+}
+
+.btn-primary {
+  background-color: #4a76a8 !important;
+  border: none;
+}
+
+.btn-default {
+  background-color: #eff3f6;
+  background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+  border: 1px solid rgba(27,31,35,.2);
+}
+
+.dropdown-item {
+  font-size: 14px;
+}
+
+.card-header,
+.card-footer {
+  background-color: #f6f8fa;
+}
+
 .navbar {
   box-shadow: 1px 2px 18px rgba(0,0,0,.1);
 }
@@ -75,7 +107,7 @@
   position: absolute;
   right: 0;
   width: 25px;
-  top: 0px;
+  top: 0;
 }
 
 .road {
