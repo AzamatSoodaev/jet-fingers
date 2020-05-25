@@ -127,7 +127,9 @@ const Main = (function($) {
                     u: localStorage.getItem('user'), 
                     s: mySpeed,
                     c: text,
-                    ip: para_id
+                    ip: para_id,
+                    timer: time_end,
+                    
                 },
                 success: function() {
                     getScore();
@@ -248,6 +250,15 @@ const Main = (function($) {
             countDownTime = setInterval(countDown, 1000);
 
             $inputfield.unbind('keydown');
+
+            $.ajax({
+                type: "POST",
+                url: './server/inserts.php',
+                data: { username: localStorage.getItem('user') },
+                success: function(response) {
+                    console.log(response)
+                }
+            });
         }
     };
 
@@ -280,8 +291,8 @@ const Main = (function($) {
 
         post: function() {
             $.ajax({
-                type: "POST",
-                url: './server/para.php', 
+                type: "GET",
+                url: './server/para.php',
                 success: function(response) {
                     reset(response);
 

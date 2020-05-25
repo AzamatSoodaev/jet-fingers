@@ -14,11 +14,7 @@ By playing the game you automatically improve your overall typing speed.
 git clone https://github.com/azattix/JetFingers.git
 cd JetFingers
 ```
-### Install packages via node.js
-```
-npm i
-```
-### Or download it manually
+
 ##### Client-side
 - [```Bootstrap ^4.3.1```](https://getbootstrap.com/)
 - [```JQuery ^3.4.1```](https://jquery.com/)<br>

@@ -2,21 +2,21 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>JetFingers</title>
+  <title>JetFingers</title>
 
-    <link rel="icon" href="images/logo2.png" type="image/x-icon">
+  <link rel="icon" href="images/logo2.png" type="image/x-icon">
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
 
-    <!-- Fonts -->
-    <script src="https://kit.fontawesome.com/f44c30b1fe.js" crossorigin="anonymous"></script>
+  <!-- Fonts -->
+  <script src="https://kit.fontawesome.com/f44c30b1fe.js" crossorigin="anonymous"></script>
 
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="css/style.css">
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>

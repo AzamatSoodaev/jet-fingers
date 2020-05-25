@@ -7,7 +7,7 @@ if (!isset($_POST['u']) ||
 		!isset($_POST['c']) ||
 		!isset($_POST['ip'])
 	) 
-{
+{ 
 	exit();
 }
 
