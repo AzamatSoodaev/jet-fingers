@@ -49,36 +49,61 @@ class CrudApplication
 		return $stmt;
 	}
 
-	// public function create()
- //    {
- //    	$this->entity
- //        $query = 'INSERT INTO ' . $this->tableName . ' SET username=:username';
+	public function create()
+    {
+        $query = 'INSERT INTO ' . $this->tableName . ' SET ' . join(',', $this->entity['preps']);
 
- //        $stmt = $this
- //            ->pdo
- //            ->prepare($query);
+        $stmt = $this
+            ->pdo
+            ->prepare($query);
 
- //        $stmt->bindParam(':username', $this->username);
-
- //        return $stmt->execute();
- //    }
+        return $stmt->execute($this->entity['val']);
+    }
 }
 
-class UserRepository extends CrudApplication
+class Entity extends CrudApplication
 {
 	protected $pdo;
-	protected $tableName = 'users';
-
 	protected $entity;
+	protected $tableName;
 
-	public function __construct(PDO $pdo)
+	public function __construct(PDO $pdo, string $tableName)
   	{
 		$this->pdo = $pdo;
+		$this->tableName = $tableName;
 	}
 
-	public function setEntity(User $user)
+	public function parse($obj)
 	{
-		$this->entity = $entity;
+		if (!is_object($obj)) 
+		{
+			return false;
+		}
+
+		$classMethods = get_class_methods($obj);
+		$assoc_arr = [];
+		$preps = [];
+		$val = null;
+
+		foreach ($classMethods as $methodName) 
+		{
+			// if method name starts with get
+			if ($methodName[0] === 'g')
+			{
+				$val = $obj->{$methodName}();
+
+				if (isset($val)) 
+				{
+					$key = strtolower( substr($methodName, 3) );
+					$assoc_arr[':'.$key] = $val;
+					$preps[] = $key . '=:' . $key;
+				}
+			}
+		}
+
+		$this->entity['preps'] = $preps;
+		$this->entity['val'] = $assoc_arr;
+		// print_r($this->entity);
 	}
 }
 
@@ -114,37 +139,28 @@ class Response
 		}
 	}
 
-	public static function post($data)
+	public static function post($stmn)
 	{
-		if (empty($data->username))
-	    {
-	    	http_response_code(400); // 400 bad request
-	        echo json_encode(['message' => 'Unable to create record. Data is incomplete.']);
-	        return;
-	    }
- 
-        $user->setUsername($data->username);
-
-        if ($user->create())
+        if ($stmn == 1)
         {
             http_response_code(201);
-            echo json_encode(['message' => 'User was created.']);
+            echo json_encode(['message' => 'Record was created.']);
         }
         else
         {
             http_response_code(503); // 503 service unavailable
-            echo json_encode(['message' => 'Unable to create a user.']);
+            echo json_encode(['message' => 'Unable to create a record.']);
         } 
 	}
 }
 
-class Validation
+class Validator
 {
 	public static function validate($obj)
 	{
 		if (!is_object($obj)) 
 		{
-			exit();
+			return true;
 		}
 
 		$classMethods = get_class_methods($obj);
@@ -166,16 +182,18 @@ class Validation
 				}
 			}
 		}
+
+		return false;
 	}
 }
 
 require_once __DIR__.'/../config/core.php';
 
-$userRepository = new UserRepository($db->getConnection());
+$entity = new Entity($db->getConnection(), 'users');
 
 // if ($_SERVER['REQUEST_METHOD'] === 'GET')
 // {
-// 	$stmt = $userRepository->selectOneBy(['id' => 1]);
+// 	$stmt = $entity->selectOneBy(['id' => 1]);
 // 	Response::get($stmt, $isSingleRow = true);
 // }
 
@@ -184,12 +202,15 @@ $userRepository = new UserRepository($db->getConnection());
 // 	$data = json_decode(file_get_contents('php://input'));
 
 	$user = new User;
-	$user->setUsername('<br>Azamat</br>');
+	$user->setUsername('<br>dad</br>');
 
-	Validation::validate($user);
+	$error = Validator::validate($user);
 
-// 	$userRepository->setEntity($user);
+	if (!$error) 
+	{
+		$entity->parse($user);
+		$stmt = $entity->create();
+		Response::post($stmt);
+	}
 
-// 	$stmt = $userRepository->create();
-// 	Response::post($stmt);
 // }
