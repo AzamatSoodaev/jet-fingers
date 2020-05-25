@@ -66,17 +66,24 @@ class UserRepository extends CrudApplication
 
 class Response 
 {
-	public static function get($stmt)
+	public static function get($stmt, $isSingleRow = false)
 	{
 		$num = $stmt->rowCount();
 	
 		if ($num > 0)
 		{
-			$items = [];
-	
-			while ($row = $stmt->fetch())
+			if ($isSingleRow === false)
 			{
-				array_push($items, $row);
+				$items = [];
+		
+				while ($row = $stmt->fetch())
+				{
+					array_push($items, $row);
+				}
+			}
+			else
+			{
+				$items = $stmt->fetch();
 			}
 			
 			http_response_code(200); // OK
@@ -96,6 +103,6 @@ $userRepository = new UserRepository($db->getConnection(), new User);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET')
 {
-	$stmt = $userRepository->selectAll();
-	Response::get($stmt);
+	$stmt = $userRepository->selectOneBy(['id' => 1]);
+	Response::get($stmt, $isSingleRow = true);
 }
